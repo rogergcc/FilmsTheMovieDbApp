@@ -6,7 +6,8 @@ plugins {
     id 'kotlin-kapt'
 
 }
-//apply plugin: 'androidx.navigation.safeargs'
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
     compileSdkVersion 31
@@ -20,6 +21,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        buildConfigField("String", "API_KEY", "\"${localProperties['api_key']}\"")
+        buildConfigField("String", "API_KEY", localProperties['api_key'])
+
     }
 
     buildTypes {

@@ -23,6 +23,4 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         binding.txtMovieTitle.text = args.title
         binding.txtLanguage.text = "Language ${args.language}"
         binding.txtRating.text = "${args.voteAverage} (${args.voteCount} Reviews)"
-        binding.txtReleased.text = "Released ${args.releaseDate}"
-    }
-}
+        binding.txtReleased.text = "Released ${args.releaseDate}" } }

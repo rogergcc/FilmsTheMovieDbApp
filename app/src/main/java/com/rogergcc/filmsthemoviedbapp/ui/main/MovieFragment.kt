@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rogergcc.filmsthemoviedbapp.BuildConfig
 import com.rogergcc.filmsthemoviedbapp.R
 import com.rogergcc.filmsthemoviedbapp.core.Resource
 import com.rogergcc.filmsthemoviedbapp.data.local.AppDatabase
@@ -40,7 +41,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MoviesAdapter.OnMovieCl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMovieBinding.bind(view)
-
+        BuildConfig.VERSION_CODE
         binding.rvMovies.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
