@@ -108,4 +108,6 @@ fun Movie.toMovieEntity(movieType: String): MovieEntity = MovieEntity(
     movie_type = movieType
 )
 
-
+fun Movie.isNull(): Boolean {
+    return this.backdrop_path == null
+}
