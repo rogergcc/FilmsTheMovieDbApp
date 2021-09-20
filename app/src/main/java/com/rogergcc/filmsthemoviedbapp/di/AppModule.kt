@@ -1,5 +1,4 @@
 package com.rogergcc.filmsthemoviedbapp.di
-
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.GsonBuilder
@@ -18,12 +17,9 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-
-
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
     @Singleton
     @Provides
     fun provideRoomInstance(
@@ -37,7 +33,6 @@ object AppModule {
     @Singleton
     @Provides
     fun provideMoviesDao(db: AppDatabase) = db.getMovieDao()
-
 
     @Singleton
     @Provides
@@ -53,14 +48,13 @@ object AppModule {
     @Singleton
     @Provides
     fun provideProductRepository(
-                dataSourceRemote: RemoteMovieDataSource,
+        dataSourceRemote: RemoteMovieDataSource,
         dataSourceLocal: LocalMovieDataSource,
-    ) : MovieRepository {
+    ): MovieRepository {
         return MovieRepositoryImpl(
             dataSourceRemote, dataSourceLocal
         )
     }
-
 
 //    @Singleton
 //    @Provides
