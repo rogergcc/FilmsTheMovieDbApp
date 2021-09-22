@@ -20,19 +20,19 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    @Singleton
-    @Provides
-    fun provideRoomInstance(
-        @ApplicationContext context: Context,
-    ) = Room.databaseBuilder(
-        context,
-        AppDatabase::class.java,
-        "movie_table"
-    ).fallbackToDestructiveMigration().build()
-
-    @Singleton
-    @Provides
-    fun provideMoviesDao(db: AppDatabase) = db.getMovieDao()
+//    @Singleton
+//    @Provides
+//    fun provideRoomInstance(
+//        @ApplicationContext context: Context,
+//    ) = Room.databaseBuilder(
+//        context,
+//        AppDatabase::class.java,
+//        "movie_table"
+//    ).fallbackToDestructiveMigration().build()
+//
+//    @Singleton
+//    @Provides
+//    fun provideMoviesDao(db: AppDatabase) = db.getMovieDao()
 
     @Singleton
     @Provides
@@ -56,14 +56,7 @@ object AppModule {
         )
     }
 
-//    @Singleton
-//    @Provides
-//    fun provideLoginRepository(
-//        dataSourceRemote: RemoteMovieDataSource,
-//        dataSourceLocal: LocalMovieDataSource,
-//    ): MovieRepository {
-//        return MovieRepositoryImpl(dataSourceRemote, dataSourceLocal)
-//    }
+
 
 }
 

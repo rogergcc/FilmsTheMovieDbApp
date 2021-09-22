@@ -11,7 +11,8 @@ import javax.inject.Inject
 
 //@ExperimentalCoroutinesApi
 //@ActivityRetainedScoped
-class MovieRepositoryImpl @Inject constructor(
+//class MovieRepositoryImpl @Inject constructor(
+class MovieRepositoryImpl constructor(
     private val dataSourceRemote: RemoteMovieDataSource,
     private val dataSourceLocal: LocalMovieDataSource
 ) : MovieRepository {

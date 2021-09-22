@@ -31,7 +31,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MoviesAdapter.OnMovieCl
 //        )
 //    }
 
-    private val viewModel by viewModels<MovieViewModel>()
+//    private val viewModel by viewModels<MovieViewModel>()
+    private val viewModel: MovieViewModel by viewModels()
     private val mAdapterMoviesList by lazy { MoviesAdapter(this) }
 
 //    private val viewModel by activityViewModels<MovieViewModel>()
