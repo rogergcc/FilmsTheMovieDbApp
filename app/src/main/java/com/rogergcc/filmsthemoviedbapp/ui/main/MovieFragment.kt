@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rogergcc.filmsthemoviedbapp.BuildConfig
@@ -19,7 +18,9 @@ import com.rogergcc.filmsthemoviedbapp.ui.main.adapters.MoviesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MovieFragment : Fragment(R.layout.fragment_movie), MoviesAdapter.OnMovieClickListener {
+class MovieFragment : Fragment(R.layout.fragment_movie)
+//    ,MoviesAdapter.OnMovieClickListener {
+{
 
     private lateinit var binding: FragmentMovieBinding
 //    private val viewModel by viewModels<MovieViewModel> {
@@ -31,9 +32,13 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MoviesAdapter.OnMovieCl
 //        )
 //    }
 
-//    private val viewModel by viewModels<MovieViewModel>()
+    //    private val viewModel by viewModels<MovieViewModel>()
     private val viewModel: MovieViewModel by viewModels()
-    private val mAdapterMoviesList by lazy { MoviesAdapter(this) }
+    private val mAdapterMoviesList by lazy {
+        MoviesAdapter() { movie->
+            goToMovieDetailsView(movie)
+        }
+    }
 
 //    private val viewModel by activityViewModels<MovieViewModel>()
 
@@ -74,7 +79,11 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MoviesAdapter.OnMovieCl
         })
     }
 
-    override fun onMovieClick(movie: Movie) {
+    private fun goToMovieDetailsView(movie: Movie) {
+        Log.d(TAG, "prevention $movie")
+//        requireContext().toast(prevention.toString())
+
+
         val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailFragment(
             movie.poster_path,
             movie.backdrop_path!!,
@@ -86,5 +95,24 @@ class MovieFragment : Fragment(R.layout.fragment_movie), MoviesAdapter.OnMovieCl
             movie.release_date
         )
         findNavController().navigate(action)
+    }
+
+
+//    override fun onMovieClick(movie: Movie) {
+//        val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailFragment(
+//            movie.poster_path,
+//            movie.backdrop_path!!,
+//            movie.vote_average.toFloat(),
+//            movie.vote_count,
+//            movie.overview,
+//            movie.title,
+//            movie.original_language,
+//            movie.release_date
+//        )
+//        findNavController().navigate(action)
+//    }
+
+    companion object {
+        private const val TAG = "MovieFragment"
     }
 }

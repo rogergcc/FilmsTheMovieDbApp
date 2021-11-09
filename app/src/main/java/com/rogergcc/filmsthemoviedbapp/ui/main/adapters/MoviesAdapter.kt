@@ -11,7 +11,8 @@ import com.rogergcc.filmsthemoviedbapp.data.model.Movie
 import com.rogergcc.filmsthemoviedbapp.databinding.MovieItemBinding
 
 class MoviesAdapter(
-    private val itemClickListener: OnMovieClickListener,
+//    private val itemClickListener: OnMovieClickListener,
+    val movieDetailsAction: (movie: Movie) -> Unit,
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
     //    private var mItemsMovie = emptyList<Movie>()
     interface OnMovieClickListener {
@@ -38,7 +39,8 @@ class MoviesAdapter(
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener
-            itemClickListener.onMovieClick(mItemsMovie[position])
+//            itemClickListener.onMovieClick(mItemsMovie[position])
+            movieDetailsAction(mItemsMovie[position])
         }
 
         return holder
