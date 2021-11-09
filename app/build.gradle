@@ -1,29 +1,32 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
-    id 'kotlin-kapt'
+
 }
-apply plugin: 'dagger.hilt.android.plugin'
+//apply plugin: 'dagger.hilt.android.plugin'
+
 def localProperties = new Properties()
 localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.rogergcc.filmsthemoviedbapp"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 //        buildConfigField("String", "API_KEY", "\"${localProperties['api_key']}\"")
-        buildConfigField("String", "API_KEY", localProperties['api_key'])
-
+//        buildConfigField("String", "API_KEY", localProperties['api_key'])
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -43,40 +46,54 @@ android {
     buildFeatures {
         viewBinding true
     }
+//    kapt {
+//        javacOptions {
+//            // These options are normally set automatically via the Hilt Gradle plugin, but we
+//            // set them manually to workaround a bug in the Kotlin 1.5.20
+//            option("-Adagger.fastInit=ENABLED")
+//            option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+//        }
+//    }
 
+//    kapt {
+//        javacOptions {
+//            // Increase the max count of errors from annotation processors.
+//            // Default is 100.
+//            option("-Xmaxerrs", 500)
+//        }
+//        // Configure kapt to correct error types for Hilt
+//        correctErrorTypes true
+//    }
 }
 
 dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.core:core-ktx:1.6.0'
+//    implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.30"
     implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+
 
     //Recyclerview - Concat adapter
     implementation "androidx.recyclerview:recyclerview:1.2.1"
-
-    //Combine tuple
-    implementation 'com.github.Zhuinden:livedata-combinetuple-kt:1.1.0'
 
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
 
-    def nav_version = "2.3.5"
+//    def nav_version = "2.3.5"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
-    // Navigation
-//    implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
-//    implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
-
     // Utils
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    kapt 'com.github.bumptech.glide:compiler:4.12.0'
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -84,10 +101,33 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
 
-    // Room
-    implementation 'androidx.room:room-ktx:2.3.0'
-    implementation "androidx.room:room-runtime:2.3.0"
-    kapt "androidx.room:room-compiler:2.3.0"
+    //Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
+//    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:2.38.1"
+    kapt "com.google.dagger:hilt-android-compiler:2.38.1"
+//    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+//    kapt "com.google.dagger:hilt-android-compiler:2.37"
+
+    implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
+
+    // When using Kotlin.
+//    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_view_model_version"
+//    kapt "androidx.hilt:hilt-compiler:$hilt_view_model_version"
+
+    // Coroutines
+//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.8"
+//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+
+    //multidex
+    implementation 'com.android.support:multidex:1.0.3'
 
     //hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
