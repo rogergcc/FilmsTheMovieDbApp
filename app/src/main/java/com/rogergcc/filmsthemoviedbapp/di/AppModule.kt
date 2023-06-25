@@ -2,11 +2,11 @@ package com.rogergcc.filmsthemoviedbapp.di
 
 import com.google.gson.GsonBuilder
 import com.rogergcc.filmsthemoviedbapp.application.AppConstants
+import com.rogergcc.filmsthemoviedbapp.data.MovieRepositoryImpl
 import com.rogergcc.filmsthemoviedbapp.data.local.LocalMovieDataSource
 import com.rogergcc.filmsthemoviedbapp.data.remote.RemoteMovieDataSource
+import com.rogergcc.filmsthemoviedbapp.data.remote.WebService
 import com.rogergcc.filmsthemoviedbapp.domain.MovieRepository
-import com.rogergcc.filmsthemoviedbapp.domain.MovieRepositoryImpl
-import com.rogergcc.filmsthemoviedbapp.domain.WebService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

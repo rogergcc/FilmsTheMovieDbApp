@@ -6,7 +6,7 @@ import com.rogergcc.filmsthemoviedbapp.domain.MovieRepository
 import javax.inject.Inject
 
 class GetMoviesUseCase @Inject constructor(private val loginRepository: MovieRepository) {
-    suspend fun invoke(): MovieList{
+    suspend operator fun invoke(): MovieList {
         return loginRepository.getPopularMovies()
     }
 

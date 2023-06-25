@@ -54,7 +54,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie)
 
 //        val viewModel:MovieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
 
-        viewModel.fetchMainScreenMovies().observe(viewLifecycleOwner, { result ->
+        viewModel.fetchMainScreenMovies().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
@@ -76,7 +76,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie)
                         .show()
                 }
             }
-        })
+        }
     }
 
     private fun goToMovieDetailsView(movie: Movie) {

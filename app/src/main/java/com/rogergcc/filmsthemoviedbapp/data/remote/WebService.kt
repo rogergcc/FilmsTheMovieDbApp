@@ -1,4 +1,4 @@
-package com.rogergcc.filmsthemoviedbapp.domain
+package com.rogergcc.filmsthemoviedbapp.data.remote
 
 import com.rogergcc.filmsthemoviedbapp.data.model.MovieList
 import retrofit2.http.GET

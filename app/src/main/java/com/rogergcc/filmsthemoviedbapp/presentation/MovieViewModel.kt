@@ -10,19 +10,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(
-    private val repo: GetMoviesUseCase
-    )
+    private val getMoviesUseCase: GetMoviesUseCase,
+)
     : ViewModel() {
 
     fun fetchMainScreenMovies() = liveData(Dispatchers.IO) {
         emit(Resource.Loading())
         try {
-            emit(Resource.Success((repo.invoke())))
+            emit(Resource.Success(getMoviesUseCase()))
         } catch (e: Exception) {
             emit(Resource.Failure(e))
         }
     }
 }
+//difference of liveData(Dispatchers.IO) { y viewModelScope.launch { }
 
 //class MovieViewModelFactory(private val repo: MovieRepository) : ViewModelProvider.Factory {
 //    override fun <T : ViewModel?> create(modelClass: Class<T>): T {

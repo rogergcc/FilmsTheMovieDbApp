@@ -1,4 +1,4 @@
-package com.rogergcc.filmsthemoviedbapp.domain
+package com.rogergcc.filmsthemoviedbapp.data
 
 import com.rogergcc.filmsthemoviedbapp.core.InternetCheck
 import com.rogergcc.filmsthemoviedbapp.data.local.LocalMovieDataSource
@@ -6,8 +6,7 @@ import com.rogergcc.filmsthemoviedbapp.data.model.MovieList
 import com.rogergcc.filmsthemoviedbapp.data.model.isNull
 import com.rogergcc.filmsthemoviedbapp.data.model.toMovieEntity
 import com.rogergcc.filmsthemoviedbapp.data.remote.RemoteMovieDataSource
-import dagger.hilt.android.scopes.ActivityRetainedScoped
-import javax.inject.Inject
+import com.rogergcc.filmsthemoviedbapp.domain.MovieRepository
 
 //@ExperimentalCoroutinesApi
 //@ActivityRetainedScoped
