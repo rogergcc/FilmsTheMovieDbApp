@@ -2,6 +2,7 @@ package com.rogergcc.filmsthemoviedbapp.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.rogergcc.filmsthemoviedbapp.core.Resource
 import com.rogergcc.filmsthemoviedbapp.domain.usecase.GetMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,7 @@ class MovieViewModel @Inject constructor(
 )
     : ViewModel() {
 
-    fun fetchMainScreenMovies() = liveData(Dispatchers.IO) {
+    fun fetchMainScreenMovies() = liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
         emit(Resource.Loading())
         try {
             emit(Resource.Success(getMoviesUseCase()))
