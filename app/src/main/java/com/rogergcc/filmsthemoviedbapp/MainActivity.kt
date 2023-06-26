@@ -10,24 +10,19 @@ import com.rogergcc.filmsthemoviedbapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-//class MainActivity : AppCompatActivity(R.layout.activity_main) {
 class MainActivity : AppCompatActivity() {
-    //    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-//    }
-    private lateinit var binding: ActivityMainBinding
 
-    //    private lateinit var navController: NavController
+    private lateinit var binding: ActivityMainBinding
+//    private lateinit var navController: NavController
     private val navController: NavController by lazy { findNavController(R.id.nav_host_fragment) }
     private lateinit var appBarConfiguration: AppBarConfiguration
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-//        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-//        NavigationUI.setupActionBarWithNavController(this, navController)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+//        navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+//        NavigationUI.setupActionBarWithNavController(this, navController)
 
 //        setSupportActionBar(binding.toolbar)
 //        binding.toolbar.visibility = View.GONE
