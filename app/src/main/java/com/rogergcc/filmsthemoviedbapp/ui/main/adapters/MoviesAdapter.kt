@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.rogergcc.filmsthemoviedbapp.application.AppConstants
 import com.rogergcc.filmsthemoviedbapp.core.BaseViewHolder
 import com.rogergcc.filmsthemoviedbapp.data.model.Movie
 import com.rogergcc.filmsthemoviedbapp.databinding.MovieItemBinding
@@ -15,14 +16,6 @@ class MoviesAdapter(
     val movieDetailsAction: (movie: Movie) -> Unit,
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
     //    private var mItemsMovie = emptyList<Movie>()
-    interface OnMovieClickListener {
-        fun onMovieClick(movie: Movie)
-    }
-
-//    fun setData(newData: List<Movie>) {
-//        mMoviesList = newData
-//        notifyDataSetChanged()
-//    }
 
     var mItemsMovie = listOf<Movie>()
         set(value) {
@@ -39,7 +32,6 @@ class MoviesAdapter(
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener
-//            itemClickListener.onMovieClick(mItemsMovie[position])
             movieDetailsAction(mItemsMovie[position])
         }
 
@@ -64,7 +56,7 @@ class MoviesAdapter(
                 tvTitleMovie.text = item.title
                 tvDescription.text = item.overview
 
-                Glide.with(context).load("https://image.tmdb.org/t/p/w500/${item.poster_path}")
+                Glide.with(context).load("${AppConstants.IMAGE_URL}${item.poster_path}")
                     .centerCrop().into(imvImagePoster)
             }
         }

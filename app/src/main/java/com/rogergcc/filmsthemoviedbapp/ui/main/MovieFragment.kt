@@ -118,14 +118,6 @@ class MovieFragment : Fragment(R.layout.fragment_movie)
         }
     }
 
-    private fun displayData(restaurants: List<Movie>) {
-//        val viewModel = RestaurantsViewModel()
-//        restaurantsAdapter!!.restaurants = viewModel.getDisplayRestaurants(restaurants)
-//        val restaurantsDisplay = viewModel.getDisplayRestaurants(restaurants)
-        mAdapterMoviesList.setData(restaurants)
-//        mAdapterMoviesList.notifyDataSetChanged()
-    }
-
     private fun goToMovieDetailsView(movie: Movie) {
         Log.d(TAG, "prevention $movie")
 //        requireContext().toast(prevention.toString())
