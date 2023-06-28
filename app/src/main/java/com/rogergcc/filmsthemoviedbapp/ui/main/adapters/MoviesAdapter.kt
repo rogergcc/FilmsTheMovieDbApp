@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rogergcc.filmsthemoviedbapp.core.BaseViewHolder
+import com.rogergcc.filmsthemoviedbapp.core.RowDiffUtil
 import com.rogergcc.filmsthemoviedbapp.data.model.Movie
 import com.rogergcc.filmsthemoviedbapp.databinding.MovieItemBinding
 
@@ -14,45 +15,34 @@ class MoviesAdapter(
 //    private val itemClickListener: OnMovieClickListener,
     val movieDetailsAction: (movie: Movie) -> Unit,
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
-    //    private var mItemsMovie = emptyList<Movie>()
-    interface OnMovieClickListener {
-        fun onMovieClick(movie: Movie)
+
+    private var mMoviesList = emptyList<Movie>()
+
+
+    fun setData(newData: List<Movie>) {
+        val recipesDiffUtil =
+            RowDiffUtil(mMoviesList, newData)
+        val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
+        mMoviesList = newData
+        diffUtilResult.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
-
-//    fun setData(newData: List<Movie>) {
-//        mMoviesList = newData
-//        notifyDataSetChanged()
-//    }
-
-    var mItemsMovie = listOf<Movie>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         val itemBinding =
             MovieItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val holder = UpcomingMoviesViewHolder(itemBinding, parent.context)
-
-        itemBinding.root.setOnClickListener {
-            val position =
-                holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
-                    ?: return@setOnClickListener
-//            itemClickListener.onMovieClick(mItemsMovie[position])
-            movieDetailsAction(mItemsMovie[position])
-        }
-
-        return holder
+        return UpcomingMoviesViewHolder(itemBinding, parent.context)
     }
+
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         when (holder) {
-            is UpcomingMoviesViewHolder -> holder.bind(mItemsMovie[position])
+            is UpcomingMoviesViewHolder -> holder.bind(mMoviesList[position])
         }
     }
 
-    override fun getItemCount(): Int = mItemsMovie.size
+    //    override fun getItemCount(): Int = mItemsMovie.size
+    override fun getItemCount(): Int = mMoviesList.size
 
     private inner class UpcomingMoviesViewHolder(
         val binding: MovieItemBinding,

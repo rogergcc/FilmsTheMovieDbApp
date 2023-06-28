@@ -2,13 +2,14 @@ package com.rogergcc.filmsthemoviedbapp.ui.main
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rogergcc.filmsthemoviedbapp.BuildConfig
 import com.rogergcc.filmsthemoviedbapp.R
 import com.rogergcc.filmsthemoviedbapp.core.Resource
 import com.rogergcc.filmsthemoviedbapp.data.model.Movie
@@ -21,8 +22,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class MovieFragment : Fragment(R.layout.fragment_movie)
 //    ,MoviesAdapter.OnMovieClickListener {
 {
+    private var _binding: FragmentMovieBinding? = null
+    private val binding get() = _binding!!
 
-    private lateinit var binding: FragmentMovieBinding
+//    private lateinit var binding: FragmentMovieBinding
+
 //    private val viewModel by viewModels<MovieViewModel> {
 //        MovieViewModelFactory(
 //            MovieRepositoryImpl(
@@ -35,24 +39,58 @@ class MovieFragment : Fragment(R.layout.fragment_movie)
     //    private val viewModel by viewModels<MovieViewModel>()
     private val viewModel: MovieViewModel by viewModels()
     private val mAdapterMoviesList by lazy {
-        MoviesAdapter() { movie->
+        MoviesAdapter() { movie ->
             goToMovieDetailsView(movie)
         }
     }
 
-//    private val viewModel by activityViewModels<MovieViewModel>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+    }
+
+    //    private val viewModel by activityViewModels<MovieViewModel>()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+
+        _binding = FragmentMovieBinding.inflate(inflater, container, false)
+
+
+        return binding.root
+
+    }
+
+    private var isMoviesFetched = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentMovieBinding.bind(view)
-        BuildConfig.VERSION_CODE
+//        _binding = FragmentMovieBinding.bind(view)
+
         binding.rvMovies.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
             adapter = mAdapterMoviesList
         }
+        if (!isMoviesFetched) {
+            observePopularMoviesList()
+            isMoviesFetched = true
+        }
+
 
 //        val viewModel:MovieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
+
+
+    }
+
+    private fun observePopularMoviesList() {
 
         viewModel.fetchMainScreenMovies().observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -62,8 +100,9 @@ class MovieFragment : Fragment(R.layout.fragment_movie)
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
 
-//                    binding.rvMovies.adapter = concatAdapter
-                    mAdapterMoviesList.mItemsMovie = result.data.results
+                    //                    binding.rvMovies.adapter = concatAdapter
+//                    mAdapterMoviesList.mItemsMovie = result.data.results
+                    displayData(result.data.results)
                 }
                 is Resource.Failure -> {
                     binding.progressBar.visibility = View.GONE
@@ -77,6 +116,14 @@ class MovieFragment : Fragment(R.layout.fragment_movie)
                 }
             }
         }
+    }
+
+    private fun displayData(restaurants: List<Movie>) {
+//        val viewModel = RestaurantsViewModel()
+//        restaurantsAdapter!!.restaurants = viewModel.getDisplayRestaurants(restaurants)
+//        val restaurantsDisplay = viewModel.getDisplayRestaurants(restaurants)
+        mAdapterMoviesList.setData(restaurants)
+//        mAdapterMoviesList.notifyDataSetChanged()
     }
 
     private fun goToMovieDetailsView(movie: Movie) {
