@@ -1,12 +1,12 @@
 package com.rogergcc.filmsthemoviedbapp.data.remote
 
-import com.rogergcc.filmsthemoviedbapp.data.model.MovieList
+import com.rogergcc.filmsthemoviedbapp.data.remote.model.MovieListResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface WebService {
+interface ApiService {
     @GET("movie/popular")
-    suspend fun getPopulardMovies(@Query ("api_key") apiKey: String): MovieList
+    suspend fun getPopulardMovies(@Query("api_key") apiKey: String): MovieListResponse
 }
 
 //object RetrofitClient {
@@ -15,7 +15,7 @@ interface WebService {
 //        Retrofit.Builder()
 //            .baseUrl(AppConstants.BASE_URL)
 //            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-//            .build().create(WebService::class.java)
+//            .build().create(ApiService::class.java)
 //    }
 //
 //}

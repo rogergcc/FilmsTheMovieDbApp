@@ -2,9 +2,9 @@ package com.rogergcc.filmsthemoviedbapp.domain
 
 
 
-import com.rogergcc.filmsthemoviedbapp.data.model.MovieList
+import com.rogergcc.filmsthemoviedbapp.domain.model.MovieList
 
-interface MovieRepository {
+interface IMovieRepository {
 
     suspend fun getPopularMovies(): MovieList
 }

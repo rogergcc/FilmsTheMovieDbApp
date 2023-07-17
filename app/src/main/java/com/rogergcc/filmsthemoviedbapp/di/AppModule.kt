@@ -2,11 +2,11 @@ package com.rogergcc.filmsthemoviedbapp.di
 
 import com.google.gson.GsonBuilder
 import com.rogergcc.filmsthemoviedbapp.application.AppConstants
-import com.rogergcc.filmsthemoviedbapp.data.MovieRepositoryImpl
+import com.rogergcc.filmsthemoviedbapp.data.IMovieRepositoryImpl
 import com.rogergcc.filmsthemoviedbapp.data.local.LocalMovieDataSource
+import com.rogergcc.filmsthemoviedbapp.data.remote.ApiService
 import com.rogergcc.filmsthemoviedbapp.data.remote.RemoteMovieDataSource
-import com.rogergcc.filmsthemoviedbapp.data.remote.WebService
-import com.rogergcc.filmsthemoviedbapp.domain.MovieRepository
+import com.rogergcc.filmsthemoviedbapp.domain.IMovieRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,19 +18,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-//    @Singleton
-//    @Provides
-//    fun provideRoomInstance(
-//        @ApplicationContext context: Context,
-//    ) = Room.databaseBuilder(
-//        context,
-//        AppDatabase::class.java,
-//        "movie_table"
-//    ).fallbackToDestructiveMigration().build()
-//
-//    @Singleton
-//    @Provides
-//    fun provideMoviesDao(db: AppDatabase) = db.getMovieDao()
 
     @Singleton
     @Provides
@@ -41,15 +28,15 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideWebService(retrofit: Retrofit): WebService = retrofit.create(WebService::class.java)
+    fun provideWebService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 
     @Singleton
     @Provides
     fun provideProductRepository(
         dataSourceRemote: RemoteMovieDataSource,
         dataSourceLocal: LocalMovieDataSource,
-    ): MovieRepository {
-        return MovieRepositoryImpl(
+    ): IMovieRepository {
+        return IMovieRepositoryImpl(
             dataSourceRemote, dataSourceLocal
         )
     }

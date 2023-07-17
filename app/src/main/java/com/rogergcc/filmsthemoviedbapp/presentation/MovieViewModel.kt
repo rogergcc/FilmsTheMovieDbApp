@@ -26,8 +26,8 @@ class MovieViewModel @Inject constructor(
 }
 //difference of liveData(Dispatchers.IO) { y viewModelScope.launch { }
 
-//class MovieViewModelFactory(private val repo: MovieRepository) : ViewModelProvider.Factory {
+//class MovieViewModelFactory(private val repo: IMovieRepository) : ViewModelProvider.Factory {
 //    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-//        return modelClass.getConstructor(MovieRepository::class.java).newInstance(repo)
+//        return modelClass.getConstructor(IMovieRepository::class.java).newInstance(repo)
 //    }
 //}

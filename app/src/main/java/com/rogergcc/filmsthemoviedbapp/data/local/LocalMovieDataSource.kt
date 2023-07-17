@@ -1,15 +1,13 @@
 package com.rogergcc.filmsthemoviedbapp.data.local
 
-import com.rogergcc.filmsthemoviedbapp.data.model.MovieEntity
-import com.rogergcc.filmsthemoviedbapp.data.model.MovieList
-import com.rogergcc.filmsthemoviedbapp.data.model.toMovieList
+import com.rogergcc.filmsthemoviedbapp.data.remote.model.MovieListResponse
+import com.rogergcc.filmsthemoviedbapp.domain.Mappers.toMovieList
 import javax.inject.Inject
 
-//@ExperimentalCoroutinesApi
 class LocalMovieDataSource @Inject constructor(private val movieDao: MovieDao) {
 
 
-    suspend fun getPopularMovies(): MovieList {
+    suspend fun getPopularMovies(): MovieListResponse {
         return movieDao.getAllMovies().filter { it.movie_type == "popular" }.toMovieList()
     }
 
