@@ -31,11 +31,11 @@ class Splashscreen : AppCompatActivity() {
         binding = ActivitySplashscreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        topAnimation = AnimationUtils.loadAnimation(this, R.anim.top_animation)
+//        topAnimation = AnimationUtils.loadAnimation(this, R.anim.top_animation)
         bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
         val animationScale = AnimationUtils.loadAnimation(this, R.anim.scale_animation)
 
-        binding.imvLogo.animation = animationScale
+//        binding.imvLogo.animation = animationScale
 
 //        Handler().postDelayed({
 //            val i = Intent(this@Splashscreen, MainActivity::class.java)
@@ -45,10 +45,13 @@ class Splashscreen : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(SPLASH_TIME_OUT.toLong())
-            // Código a ejecutar después del retraso
-            val i = Intent(this@Splashscreen, MainActivity::class.java)
-            startActivity(i)
+
+            Intent(this@Splashscreen, MainActivity::class.java).apply {
+                startActivity(this)
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+            }
             finish()
+
         }
     }
 
