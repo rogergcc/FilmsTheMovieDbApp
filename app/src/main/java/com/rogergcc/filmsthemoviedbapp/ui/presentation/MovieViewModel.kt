@@ -1,9 +1,11 @@
-package com.rogergcc.filmsthemoviedbapp.presentation
+package com.rogergcc.filmsthemoviedbapp.ui.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.rogergcc.filmsthemoviedbapp.core.Resource
+import com.rogergcc.filmsthemoviedbapp.domain.IMovieRepository
 import com.rogergcc.filmsthemoviedbapp.domain.usecase.GetMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,8 +28,8 @@ class MovieViewModel @Inject constructor(
 }
 //difference of liveData(Dispatchers.IO) { y viewModelScope.launch { }
 
-//class MovieViewModelFactory(private val repo: IMovieRepository) : ViewModelProvider.Factory {
-//    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-//        return modelClass.getConstructor(IMovieRepository::class.java).newInstance(repo)
-//    }
-//}
+class MovieViewModelFactory(private val repo: IMovieRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return modelClass.getConstructor(IMovieRepository::class.java).newInstance(repo)
+    }
+}

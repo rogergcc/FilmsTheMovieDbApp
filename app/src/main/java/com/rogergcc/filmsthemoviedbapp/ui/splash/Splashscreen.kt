@@ -33,8 +33,9 @@ class Splashscreen : AppCompatActivity() {
 
         topAnimation = AnimationUtils.loadAnimation(this, R.anim.top_animation)
         bottomAnimation = AnimationUtils.loadAnimation(this, R.anim.bottom_animation)
+        val animationScale = AnimationUtils.loadAnimation(this, R.anim.scale_animation)
 
-        binding.imvLogo.animation = bottomAnimation
+        binding.imvLogo.animation = animationScale
 
 //        Handler().postDelayed({
 //            val i = Intent(this@Splashscreen, MainActivity::class.java)

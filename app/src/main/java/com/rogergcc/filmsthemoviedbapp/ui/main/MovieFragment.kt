@@ -14,8 +14,8 @@ import com.rogergcc.filmsthemoviedbapp.R
 import com.rogergcc.filmsthemoviedbapp.core.Resource
 import com.rogergcc.filmsthemoviedbapp.databinding.FragmentMovieBinding
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
-import com.rogergcc.filmsthemoviedbapp.presentation.MovieViewModel
 import com.rogergcc.filmsthemoviedbapp.ui.main.adapters.MoviesAdapter
+import com.rogergcc.filmsthemoviedbapp.ui.presentation.MovieViewModel
 import com.rogergcc.filmsthemoviedbapp.ui.utils.hide
 import com.rogergcc.filmsthemoviedbapp.ui.utils.show
 import dagger.hilt.android.AndroidEntryPoint
