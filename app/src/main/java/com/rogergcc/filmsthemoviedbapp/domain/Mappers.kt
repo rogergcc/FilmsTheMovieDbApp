@@ -1,7 +1,6 @@
 package com.rogergcc.filmsthemoviedbapp.domain
 
 import com.rogergcc.filmsthemoviedbapp.data.local.MovieEntity
-import com.rogergcc.filmsthemoviedbapp.data.remote.model.MovieListResponse
 import com.rogergcc.filmsthemoviedbapp.data.remote.model.MovieResponse
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieList
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
@@ -14,96 +13,67 @@ import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
 object Mappers {
 
 
-    // Room
-    fun List<MovieEntity>.toMovieList(): MovieListResponse {
-        val resultList = mutableListOf<MovieResponse>()
-        this.forEach { movieEntity ->
-            resultList.add(movieEntity.toMovie())
-        }
-        return MovieListResponse(resultList)
-    }
-
     fun List<MovieResponse>.toMovieList(): MovieList {
         val resultList = mutableListOf<MovieUiModel>()
-        this.forEach { movieResponse ->
-            resultList.add(movieResponse.toMovieDomain())
-        }
+        map { it.toDomain() }
         return MovieList(resultList)
     }
 
     fun List<MovieEntity>.toMovieListUi(): MovieList {
         val resultList = mutableListOf<MovieUiModel>()
-        this.forEach { movieResponse ->
-            resultList.add(movieResponse.toMovieDomain())
-        }
+        map { it.toDomain() }
         return MovieList(resultList)
     }
 
-    fun MovieResponse.toMovieEntity(movieType: String): MovieEntity = MovieEntity(
-        this.adult,
-        this.backdrop_path.toString(),
-        this.id,
-        this.original_title,
-        this.original_language,
-        this.overview,
-        this.popularity,
-        this.poster_path,
-        this.release_date,
-        this.title,
-        this.video,
-        this.vote_average,
-        this.vote_count,
-        movie_type = movieType
-    )
+    fun MovieResponse.toDomain(): MovieUiModel? {
+        return MovieUiModel(
+            id = this.id,
+            originalTitle = this.original_title,
+            originalLanguage = this.original_language,
+            overview = this.overview,
+            popularity = this.popularity,
+            posterPath = this.poster_path,
+            releaseDate = this.release_date,
+            title = this.title,
+            movieType = this.movie_type,
+            backdropImageUrl = this.backdrop_path,
+            voteAverage = this.vote_average,
+            voteCount = this.vote_count
+        )
+    }
 
+    fun MovieUiModel.toEntity(movieType: String): MovieEntity {
+        return MovieEntity(
+            id = this.id,
+            original_title = this.originalTitle,
+            original_language = this.originalLanguage,
+            overview = this.overview,
+            popularity = this.popularity,
+            poster_path = this.posterPath,
+            release_date = this.releaseDate,
+            title = this.title,
+            backdrop_path = this.backdropImageUrl ?: "",
+            vote_average = this.voteAverage,
+            vote_count = this.voteCount,
+            movie_type = movieType
+        )
+    }
 
-    private fun MovieEntity.toMovie(): MovieResponse = MovieResponse(
-        this.adult,
-        this.backdrop_path,
-        this.id,
-        this.original_title,
-        this.original_language,
-        this.overview,
-        this.popularity,
-        this.poster_path,
-        this.release_date,
-        this.title,
-        this.video,
-        this.vote_average,
-        this.vote_count
-    )
-
-    private fun MovieEntity.toMovieDomain(): MovieUiModel = MovieUiModel(
-
-        id = this.id,
-        originalTitle = this.original_title,
-        originalLanguage = this.original_language,
-        overview = this.overview,
-        popularity = this.popularity,
-        posterPath = this.poster_path.toString(),
-        releaseDate = this.release_date,
-        title = this.title,
-        movieType = this.movie_type,
-        backdropImageUrl = this.backdrop_path,
-        voteAverage = this.vote_average,
-        voteCount = this.vote_count
-
-    )
-
-    private fun MovieResponse.toMovieDomain(): MovieUiModel = MovieUiModel(
-        this.id,
-        this.original_title,
-        this.original_language,
-        this.overview,
-        this.popularity,
-        this.poster_path.toString(),
-        this.release_date,
-        this.title,
-        this.movie_type,
-        this.backdrop_path,
-        this.vote_average,
-        this.vote_count
-    )
+    fun MovieEntity.toDomain(): MovieUiModel {
+        return MovieUiModel(
+            originalTitle = this.original_title,
+            originalLanguage = this.original_language,
+            overview = this.overview,
+            popularity = this.popularity,
+            posterPath = this.poster_path,
+            releaseDate = this.release_date,
+            title = this.title,
+            movieType = this.movie_type,
+            backdropImageUrl = this.backdrop_path,
+            voteAverage = this.vote_average,
+            voteCount = this.vote_count
+        )
+    }
 
 
     fun MovieResponse.isNull(): Boolean {

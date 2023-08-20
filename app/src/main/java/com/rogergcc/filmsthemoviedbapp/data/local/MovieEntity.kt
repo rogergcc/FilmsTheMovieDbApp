@@ -6,12 +6,15 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "movieEntity")
 data class MovieEntity(
+//    @PrimaryKey(autoGenerate = true)
+//    val id: Int? = null,
+//    @ColumnInfo(name = "id_movie")
+    @PrimaryKey
+    val id: Int = -1,
     @ColumnInfo(name = "adult")
     val adult: Boolean = false,
     @ColumnInfo(name = "backdrop_path")
     val backdrop_path: String = "",
-    @PrimaryKey
-    val id: Int = -1,
     @ColumnInfo(name = "original_title")
     val original_title: String = "",
     @ColumnInfo(name = "original_language")
