@@ -66,7 +66,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie)
 
     }
 
-    private var isMoviesFetched = false
+//    private var isMoviesFetched = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,14 +74,15 @@ class MovieFragment : Fragment(R.layout.fragment_movie)
 
         binding.rvMovies.apply {
             setHasFixedSize(true)
-
             layoutManager = LinearLayoutManager(context)
             adapter = mAdapterMoviesList
         }
-        if (!isMoviesFetched) {
-            observePopularMoviesList()
-            isMoviesFetched = true
-        }
+//        if (!isMoviesFetched) {
+//            observePopularMoviesList()
+//            isMoviesFetched = true
+//        }
+
+        observePopularMoviesList()
         binding.rvMovies.scheduleLayoutAnimation()
 
 //        val viewModel:MovieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
@@ -90,8 +91,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie)
     }
 
     private fun observePopularMoviesList() {
-
-        viewModel.fetchMainScreenMovies().observe(viewLifecycleOwner) { result ->
+        viewModel.movieStateResource.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
                     binding.progressBar.show()
