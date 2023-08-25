@@ -14,9 +14,10 @@
             android:id="@+id/action_movieFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+
+            app:popEnterAnim="@anim/slide_in_left" />
+        <!--        app:popExitAnim="@anim/slide_out_right"-->
+        <!--        app:exitAnim="@anim/slide_out_left"-->
     </fragment>
 
     <fragment
@@ -24,29 +25,11 @@
         android:name="com.rogergcc.filmsthemoviedbapp.ui.detail.MovieDetailFragment"
         android:label="Movie Details"
         tools:layout="@layout/fragment_movie_detail">
+
         <argument
-            android:name="posterImageUrl"
-            app:argType="string" />
-        <argument
-            android:name="backgroundImageUrl"
-            app:argType="string" />
-        <argument
-            android:name="voteAverage"
-            app:argType="float" />
-        <argument
-            android:name="voteCount"
-            app:argType="integer" />
-        <argument
-            android:name="overview"
-            app:argType="string" />
-        <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="language"
-            app:argType="string" />
-        <argument
-            android:name="releaseDate"
-            app:argType="string" />
+            android:name="movie"
+            app:argType="com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel"
+            app:nullable="false" />
+
     </fragment>
 </navigation>

@@ -6,12 +6,8 @@ package com.rogergcc.filmsthemoviedbapp.data.remote.model
  * year 2021 .
  */
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
 data class MovieListResponse(val results: List<MovieResponse> = listOf())
 
-@Parcelize
 data class MovieResponse(
     val adult: Boolean = false,
     val backdrop_path: String? = "",
@@ -27,4 +23,4 @@ data class MovieResponse(
     val vote_average: Double = -1.0,
     val vote_count: Int = -1,
     var movie_type: String = "",
-) : Parcelable
+)

@@ -1,8 +1,10 @@
 package com.rogergcc.filmsthemoviedbapp.ui.presentation
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.rogergcc.filmsthemoviedbapp.core.Resource
-import com.rogergcc.filmsthemoviedbapp.domain.IMovieRepository
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieList
 import com.rogergcc.filmsthemoviedbapp.domain.usecase.GetMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,18 +20,8 @@ class MovieViewModel @Inject constructor(private val getMoviesUseCase: GetMovies
     val movieStateResource: LiveData<Resource<MovieList>> get() = _movieState
 
     init {
-//        fetchMainScreenMovies()
         fetchMovies()
     }
-
-//    fun fetchMainScreenMovies() = liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
-//        emit(Resource.Loading())
-//        try {
-//            emit(Resource.Success(getMoviesUseCase()))
-//        } catch (e: Exception) {
-//            emit(Resource.Failure(e))
-//        }
-//    }
 
     private fun fetchMovies() {
         viewModelScope.launch(viewModelScope.coroutineContext + Dispatchers.IO) {
@@ -47,9 +39,3 @@ class MovieViewModel @Inject constructor(private val getMoviesUseCase: GetMovies
 
 }
 //difference of liveData(Dispatchers.IO) { y viewModelScope.launch { }
-
-class MovieViewModelFactory(private val repo: IMovieRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(IMovieRepository::class.java).newInstance(repo)
-    }
-}

@@ -21,7 +21,7 @@
         android:contentDescription="@string/app_name" />
 
     <TextView
-        android:id="@+id/tvTitleMovie"
+        android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -49,7 +49,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imvImagePoster"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleMovie" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
     <View
         android:layout_width="0dp"

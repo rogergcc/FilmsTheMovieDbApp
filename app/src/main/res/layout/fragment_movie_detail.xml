@@ -39,7 +39,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/img_movie"
+            android:id="@+id/imvImagePoster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -56,7 +56,7 @@
         app:layout_constraintGuide_begin="333dp" />
 
     <TextView
-        android:id="@+id/txt_movie_title"
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
@@ -71,7 +71,7 @@
         tools:text="Movie Title" />
 
     <TextView
-        android:id="@+id/txt_rating"
+        android:id="@+id/tvRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="8dp"
@@ -79,13 +79,13 @@
         android:gravity="center"
         android:textColor="@color/white"
         app:drawableStartCompat="@drawable/ic_baseline_star_border_24"
-        app:layout_constraintStart_toStartOf="@+id/txt_released"
+        app:layout_constraintStart_toStartOf="@+id/tvReleased"
         app:layout_constraintTop_toTopOf="@+id/cardView"
         tools:text="7.1 (4123 Reviews)" />
 
 
     <TextView
-        android:id="@+id/txt_released"
+        android:id="@+id/tvReleased"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -96,11 +96,11 @@
         app:drawableStartCompat="@drawable/ic_baseline_calendar_today_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/txt_rating"
+        app:layout_constraintTop_toBottomOf="@+id/tvRating"
         tools:text="20-11-20 Released" />
 
     <TextView
-        android:id="@+id/txt_language"
+        android:id="@+id/tvLanguage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -109,8 +109,8 @@
         app:drawableTint="@color/white"
         android:textColor="@color/white"
         app:drawableStartCompat="@drawable/ic_baseline_language_24"
-        app:layout_constraintStart_toStartOf="@+id/txt_released"
-        app:layout_constraintTop_toBottomOf="@+id/txt_released"
+        app:layout_constraintStart_toStartOf="@+id/tvReleased"
+        app:layout_constraintTop_toBottomOf="@+id/tvReleased"
         tools:text="Language en " />
 
     <TextView
@@ -134,6 +134,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
+        android:textSize="16sp"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
 
 

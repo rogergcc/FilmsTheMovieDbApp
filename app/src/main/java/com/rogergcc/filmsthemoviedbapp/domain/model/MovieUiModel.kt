@@ -1,11 +1,15 @@
 package com.rogergcc.filmsthemoviedbapp.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 /**
  * Created on julio.
  * year 2023 .
  */
 
+@Parcelize
 data class MovieUiModel(
     val id: Int = -1,
     val originalTitle: String = "",
@@ -19,6 +23,6 @@ data class MovieUiModel(
     val backdropImageUrl: String? = "",
     val voteAverage: Double = -1.0,
     val voteCount: Int = -1,
-)
+) : Parcelable
 
 data class MovieList(val results: List<MovieUiModel> = listOf())
