@@ -18,9 +18,9 @@ import androidx.transition.TransitionInflater
 import com.rogergcc.filmsthemoviedbapp.R
 import com.rogergcc.filmsthemoviedbapp.core.Resource
 import com.rogergcc.filmsthemoviedbapp.databinding.FragmentMovieBinding
-import com.rogergcc.filmsthemoviedbapp.databinding.MovieItemBinding
+import com.rogergcc.filmsthemoviedbapp.databinding.MovieItem2Binding
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
-import com.rogergcc.filmsthemoviedbapp.ui.main.adapters.MoviesAdapter
+import com.rogergcc.filmsthemoviedbapp.ui.main.adapters.MoviesAdapter2
 import com.rogergcc.filmsthemoviedbapp.ui.presentation.MovieViewModel
 import com.rogergcc.filmsthemoviedbapp.ui.utils.hide
 import com.rogergcc.filmsthemoviedbapp.ui.utils.show
@@ -34,7 +34,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
     private val viewModel: MovieViewModel by viewModels()
     private val mAdapterMoviesList by lazy {
-        MoviesAdapter() { movie, binding ->
+        MoviesAdapter2() { movie, binding ->
             goToMovieDetailsView(movie, binding)
         }
     }
@@ -69,7 +69,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
         binding.rvMovies.apply {
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
             adapter = mAdapterMoviesList
         }
 
@@ -115,14 +115,14 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
         }
     }
 
-    private fun goToMovieDetailsView(movieSelected: MovieUiModel, binding: MovieItemBinding) {
+    private fun goToMovieDetailsView(movieSelected: MovieUiModel, binding: MovieItem2Binding) {
         Log.d(TAG, "prevention $movieSelected")
 //        requireContext().toast(prevention.toString())
 
         val extras = FragmentNavigatorExtras(
             binding.imvImagePoster to "avatar_${movieSelected.id}",
             binding.tvTitle to "title_${movieSelected.id}",
-            binding.tvDescription to "description_${movieSelected.id}"
+//            binding.tvDescription to "description_${movieSelected.id}"
         )
 
 //        val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailFragment(movieResponse)

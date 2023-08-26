@@ -25,10 +25,10 @@ class MovieViewModel @Inject constructor(private val getMoviesUseCase: GetMovies
 
     private fun fetchMovies() {
         viewModelScope.launch(viewModelScope.coroutineContext + Dispatchers.IO) {
-            _movieState.postValue(Resource.Loading())// Emitimos el estado de carga antes
+            _movieState.postValue(Resource.Loading())
 
             try {
-                _movieState.postValue(Resource.Success(getMoviesUseCase()))  // Emitimos el resultado obtenido del Repository
+                _movieState.postValue(Resource.Success(getMoviesUseCase()))
             } catch (e: Exception) {
                 _movieState.postValue(Resource.Failure(e))
             }
