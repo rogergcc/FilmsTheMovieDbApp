@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -80,7 +79,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
         binding.rvMovies.scheduleLayoutAnimation()
 
-        val viewModel: MovieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
+//        val viewModel: MovieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
 
         postponeEnterTransition(300, TimeUnit.MILLISECONDS)
         binding.rvMovies.doOnPreDraw {
