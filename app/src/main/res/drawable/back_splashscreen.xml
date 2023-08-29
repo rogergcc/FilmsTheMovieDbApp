@@ -1,0 +1,15 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/pattern_background" />
+
+    <!--    <item>-->
+    <!--        <bitmap android:src="@drawable/pattern_background" />-->
+    <!--    </item>-->
+
+    <item
+
+        android:drawable="@drawable/_app"
+        android:gravity="center" />
+
+
+</layer-list>

@@ -2,71 +2,106 @@ package com.rogergcc.filmsthemoviedbapp.ui.main
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.rogergcc.filmsthemoviedbapp.BuildConfig
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.transition.TransitionInflater
 import com.rogergcc.filmsthemoviedbapp.R
 import com.rogergcc.filmsthemoviedbapp.core.Resource
-import com.rogergcc.filmsthemoviedbapp.data.model.Movie
 import com.rogergcc.filmsthemoviedbapp.databinding.FragmentMovieBinding
-import com.rogergcc.filmsthemoviedbapp.presentation.MovieViewModel
-import com.rogergcc.filmsthemoviedbapp.ui.main.adapters.MoviesAdapter
+import com.rogergcc.filmsthemoviedbapp.databinding.MovieItem2Binding
+import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
+import com.rogergcc.filmsthemoviedbapp.ui.main.adapters.MoviesAdapter2
+import com.rogergcc.filmsthemoviedbapp.ui.presentation.MovieViewModel
+import com.rogergcc.filmsthemoviedbapp.ui.utils.hide
+import com.rogergcc.filmsthemoviedbapp.ui.utils.show
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class MovieFragment : Fragment(R.layout.fragment_movie)
-//    ,MoviesAdapter.OnMovieClickListener {
-{
+class MovieFragment : Fragment(R.layout.fragment_movie) {
+    private var _binding: FragmentMovieBinding? = null
+    private val binding get() = _binding!!
 
-    private lateinit var binding: FragmentMovieBinding
-//    private val viewModel by viewModels<MovieViewModel> {
-//        MovieViewModelFactory(
-//            MovieRepositoryImpl(
-//                RemoteMovieDataSource(RetrofitClient.webservice),
-//                LocalMovieDataSource(AppDatabase.getDatabase(requireContext()).movieDao())
-//            )
-//        )
-//    }
-
-    //    private val viewModel by viewModels<MovieViewModel>()
     private val viewModel: MovieViewModel by viewModels()
     private val mAdapterMoviesList by lazy {
-        MoviesAdapter() { movie->
-            goToMovieDetailsView(movie)
+        MoviesAdapter2() { movie, binding ->
+            goToMovieDetailsView(movie, binding)
         }
     }
 
-//    private val viewModel by activityViewModels<MovieViewModel>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementReturnTransition =
+            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+
+        _binding = FragmentMovieBinding.inflate(inflater, container, false)
+
+        return binding.root
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentMovieBinding.bind(view)
-        BuildConfig.VERSION_CODE
+//        _binding = FragmentMovieBinding.bind(view)
+
         binding.rvMovies.apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
             adapter = mAdapterMoviesList
         }
 
-//        val viewModel:MovieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
+//        launchOnLifecycleScope {
+//        }
+        observePopularMoviesList()
 
-        viewModel.fetchMainScreenMovies().observe(viewLifecycleOwner, { result ->
+
+        binding.rvMovies.scheduleLayoutAnimation()
+
+//        val viewModel: MovieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
+
+        postponeEnterTransition(300, TimeUnit.MILLISECONDS)
+        binding.rvMovies.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
+    }
+
+    private fun observePopularMoviesList() {
+        viewModel.movieStateResource.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.show()
                 }
                 is Resource.Success -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.hide()
 
-//                    binding.rvMovies.adapter = concatAdapter
+                    //                    binding.rvMovies.adapter = concatAdapter
                     mAdapterMoviesList.mItemsMovie = result.data.results
+                    //                    displayData(result.data.results)
                 }
                 is Resource.Failure -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.show()
                     Log.e("FetchError", "Error: ${result.exception} ")
                     Toast.makeText(
                         requireContext(),
@@ -76,41 +111,34 @@ class MovieFragment : Fragment(R.layout.fragment_movie)
                         .show()
                 }
             }
-        })
+        }
     }
 
-    private fun goToMovieDetailsView(movie: Movie) {
-        Log.d(TAG, "prevention $movie")
+    private fun goToMovieDetailsView(movieSelected: MovieUiModel, binding: MovieItem2Binding) {
+        Log.d(TAG, "prevention $movieSelected")
 //        requireContext().toast(prevention.toString())
 
-
-        val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailFragment(
-            movie.poster_path,
-            movie.backdrop_path!!,
-            movie.vote_average.toFloat(),
-            movie.vote_count,
-            movie.overview,
-            movie.title,
-            movie.original_language,
-            movie.release_date
+        val extras = FragmentNavigatorExtras(
+            binding.imvImagePoster to "avatar_${movieSelected.id}",
+            binding.tvTitle to "title_${movieSelected.id}",
+//            binding.tvDescription to "description_${movieSelected.id}"
         )
-        findNavController().navigate(action)
+
+//        val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailFragment(movieResponse)
+//        findNavController().navigate(action, extras)
+
+        findNavController().navigate(
+            MovieFragmentDirections.actionMovieFragmentToMovieDetailFragment(movieSelected),
+            extras
+        )
     }
 
+    private fun launchOnLifecycleScope(execute: suspend () -> Unit) {
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            execute()
+        }
+    }
 
-//    override fun onMovieClick(movie: Movie) {
-//        val action = MovieFragmentDirections.actionMovieFragmentToMovieDetailFragment(
-//            movie.poster_path,
-//            movie.backdrop_path!!,
-//            movie.vote_average.toFloat(),
-//            movie.vote_count,
-//            movie.overview,
-//            movie.title,
-//            movie.original_language,
-//            movie.release_date
-//        )
-//        findNavController().navigate(action)
-//    }
 
     companion object {
         private const val TAG = "MovieFragment"

@@ -1,13 +1,13 @@
 package com.rogergcc.filmsthemoviedbapp.domain.usecase
 
 
-import com.rogergcc.filmsthemoviedbapp.data.model.MovieList
-import com.rogergcc.filmsthemoviedbapp.domain.MovieRepository
+import com.rogergcc.filmsthemoviedbapp.domain.IMovieRepository
+import com.rogergcc.filmsthemoviedbapp.domain.model.MovieList
 import javax.inject.Inject
 
-class GetMoviesUseCase @Inject constructor(private val loginRepository: MovieRepository) {
-    suspend fun invoke(): MovieList{
-        return loginRepository.getPopularMovies()
+class GetMoviesUseCase @Inject constructor(private val moviesRepository: IMovieRepository) {
+    suspend operator fun invoke(): MovieList {
+        return moviesRepository.getPopularMovies()
     }
 
 

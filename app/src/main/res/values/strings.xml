@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">FilmsTheMovieDbApp</string>
-    <string name="mDescriptionMovie">short description of movie</string>
+    <string name="mDescriptionMovie">short description of movieResponse</string>
 </resources>

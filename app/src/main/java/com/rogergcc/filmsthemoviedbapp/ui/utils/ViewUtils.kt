@@ -11,3 +11,11 @@ fun View.hide() {
     this.visibility = View.GONE
 }
 
+fun View.toggleVisibility(): View {
+    visibility = if (visibility == View.VISIBLE) {
+        View.GONE
+    } else {
+        View.VISIBLE
+    }
+    return this
+}
