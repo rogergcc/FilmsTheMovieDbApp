@@ -19,3 +19,17 @@ fun View.toggleVisibility(): View {
     }
     return this
 }
+//fun sendData{
+//    try {
+//        val inputStream = contentResolver.openInputStream(uri)
+//        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+//        val jsonString = bufferedReader.readText()
+//
+//        // Ahora tienes el contenido del archivo en jsonString
+//        // Puedes procesarlo según tus necesidades
+//
+//        inputStream?.close()
+//    } catch (e: Exception) {
+//        e.printStackTrace()
+//    }
+//}
