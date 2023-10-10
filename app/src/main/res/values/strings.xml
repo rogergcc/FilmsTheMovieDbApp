@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">FilmsTheMovieDbApp</string>
     <string name="mDescriptionMovie">short description of movieResponse</string>
+    <string name="title_overview">Overview</string>
+    <string name="option_favourite">Favourite</string>
+    <string name="option_share">Share</string>
+    <string name="option_bookmark">Bookmark</string>
 </resources>
