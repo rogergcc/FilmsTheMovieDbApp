@@ -42,7 +42,6 @@
 
         <ImageView
             android:adjustViewBounds="true"
-
             android:id="@+id/imvImagePoster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -118,7 +117,7 @@
         tools:text="Language en " />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tvtitleOverview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_16"
@@ -129,92 +128,104 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
-    <TextView
-        android:id="@+id/txt_description"
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="@dimen/margin_16"
         android:layout_marginEnd="@dimen/margin_16"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        android:textSize="@dimen/md_text"
-        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
-
-
-    <LinearLayout
-
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_8"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_favorite_border_24"
-            android:contentDescription="@string/app_name" />
+        app:layout_constraintTop_toBottomOf="@+id/tvtitleOverview">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:lineSpacingExtra="1dp"
+            android:lineSpacingMultiplier="1.2"
+            android:id="@+id/txtDescription"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/option_favourite" />
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            android:textSize="@dimen/md_text"
+            tools:text="@string/sample_lorem" />
 
-    </LinearLayout>
+    </ScrollView>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
 
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/margin_8"
-        android:orientation="vertical"
-        android:layout_marginEnd="@dimen/margin_16"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_share_24"
-            android:contentDescription="@string/app_name" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/option_share" />
-
-    </LinearLayout>
-
-    <LinearLayout
-
-        android:id="@+id/linearLayout3"
+        android:id="@+id/cvFavorite"
+        style="@style/CardViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/margin_8"
-        android:orientation="vertical"
+        app:cardBackgroundColor="?android:attr/colorBackground"
+
+        app:layout_constraintStart_toEndOf="@+id/cvBookmark"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/margin_8"
+            app:srcCompat="@drawable/ic_baseline_favorite_border_24"
+
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/cvShare"
+        style="@style/CardViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        app:cardBackgroundColor="?android:attr/colorBackground"
+        app:layout_constraintStart_toEndOf="@+id/cvFavorite"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/margin_8"
+            app:srcCompat="@drawable/ic_baseline_share_24"
+
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvBookmark"
+        style="@style/CardViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        app:cardBackgroundColor="?android:attr/colorBackground"
+
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_bookmark_border_24"
-            android:contentDescription="@string/app_name" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:adjustViewBounds="true"
+            android:padding="@dimen/margin_8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_baseline_bookmark_border_24"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/option_bookmark" />
+            />
 
-    </LinearLayout>
+<!--        <androidx.appcompat.widget.AppCompatTextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/option_bookmark"-->
+<!--            app:drawableTopCompat="@drawable/ic_baseline_bookmark_border_24" />-->
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

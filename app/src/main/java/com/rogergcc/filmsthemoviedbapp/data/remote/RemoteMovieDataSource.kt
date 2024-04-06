@@ -18,7 +18,7 @@ class RemoteMovieDataSource @Inject constructor(
     suspend fun getPopularMovies(): MovieListResponse {
         try {
 //            throw IOException()
-            throw HttpException(Response.error<MovieListResponse>(404, "Not found".toResponseBody(null)))
+//            throw HttpException(Response.error<MovieListResponse>(404, "Not found".toResponseBody(null)))
 //            throw Exception("Simulated exception")
 
             return apiService.getPopularMovies(AppConstants.API_KEY)
