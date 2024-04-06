@@ -5,4 +5,24 @@
     <string name="option_favourite">Favourite</string>
     <string name="option_share">Share</string>
     <string name="option_bookmark">Bookmark</string>
+
+    <string name="error_state_message">Sample Type Error Message</string>
+
+    <string name="network_error_title">Error de red</string>
+    <string name="network_error_message">Ha ocurrido un error de red. Por favor, revisa tu conexión a internet.</string>
+
+    <string name="api_error_title">Error de API</string>
+    <string name="api_error_message">Ha ocurrido un error al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.</string>
+
+    <string name="unknown_error_title">Error desconocido</string>
+    <string name="unknown_error_message">Ha ocurrido un error desconocido. Por favor, contacta al soporte técnico.</string>
+
+    <string name="credits_image">https://iconscout.com/</string>
+    <string name="credits_image2">https://flaticon.com/</string>
+    <string name="credits_image3">https://freepik.com/</string>
+    <string name="credits_image4">https://vecteezy.com/</string>
+    <string name="credits_image5">https://iconfinder.com/</string>
+    <string name="credits_image6">https://icon8.com/</string>
+
+
 </resources>

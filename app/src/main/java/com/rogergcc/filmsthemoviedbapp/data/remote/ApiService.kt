@@ -3,10 +3,18 @@ package com.rogergcc.filmsthemoviedbapp.data.remote
 import com.rogergcc.filmsthemoviedbapp.data.remote.model.MovieListResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.io.IOException
 
 interface ApiService {
     @GET("movie/popular")
-    suspend fun getPopulardMovies(@Query("api_key") apiKey: String): MovieListResponse
+    suspend fun getPopularMovies(@Query("api_key") apiKey: String): MovieListResponse
+}
+
+class FakeApiService : ApiService {
+    // Simula una excepción de red
+    override suspend fun getPopularMovies(apiKey: String): MovieListResponse {
+        throw IOException("Network error occurred")
+    }
 }
 
 //object RetrofitClient {

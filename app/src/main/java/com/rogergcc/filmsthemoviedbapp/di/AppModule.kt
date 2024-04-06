@@ -2,7 +2,9 @@ package com.rogergcc.filmsthemoviedbapp.di
 
 import com.google.gson.GsonBuilder
 import com.rogergcc.filmsthemoviedbapp.application.AppConstants
-import com.rogergcc.filmsthemoviedbapp.data.IMovieRepositoryImpl
+import com.rogergcc.filmsthemoviedbapp.core.DefaultDispatchersProvider
+import com.rogergcc.filmsthemoviedbapp.core.DispatchersProvider
+import com.rogergcc.filmsthemoviedbapp.data.MovieRepositoryImpl
 import com.rogergcc.filmsthemoviedbapp.data.local.LocalMovieDataSource
 import com.rogergcc.filmsthemoviedbapp.data.remote.ApiService
 import com.rogergcc.filmsthemoviedbapp.data.remote.RemoteMovieDataSource
@@ -36,11 +38,15 @@ object AppModule {
         dataSourceRemote: RemoteMovieDataSource,
         dataSourceLocal: LocalMovieDataSource,
     ): IMovieRepository {
-        return IMovieRepositoryImpl(
+        return MovieRepositoryImpl(
             dataSourceRemote, dataSourceLocal
         )
     }
 
+    @Provides
+    fun provideDispatcherProvider(): DispatchersProvider {
+        return DefaultDispatchersProvider
+    }
 
 
 }
