@@ -1,15 +1,18 @@
 package com.rogergcc.filmsthemoviedbapp.presentation.detail
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.transition.TransitionInflater
-import com.bumptech.glide.Glide
 import com.rogergcc.filmsthemoviedbapp.R
 import com.rogergcc.filmsthemoviedbapp.application.AppConstants
 import com.rogergcc.filmsthemoviedbapp.databinding.FragmentMovieDetailBinding
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
+import com.rogergcc.filmsthemoviedbapp.presentation.utils.loadImageFromUrl
+import com.rogergcc.filmsthemoviedbapp.presentation.utils.loadUrl
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,9 +22,26 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 
 //    private val args: MovieDetailFragmentArgs by navArgs()
 
-    private lateinit var binding: FragmentMovieDetailBinding
-
+    private var _binding: FragmentMovieDetailBinding? = null
+    private val binding get() = _binding!!
     private lateinit var movieArg: MovieUiModel
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View {
+
+        _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
+
+        return binding.root
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        sharedElementEnterTransition =
@@ -56,7 +76,6 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        view.doOnPreDraw { startPostponedEnterTransition() }
-        binding = FragmentMovieDetailBinding.bind(view)
 //        val movieArg = args.movie
         ViewCompat.setTransitionName(binding.imvImagePoster, "avatar_${movieArg.id}")
         ViewCompat.setTransitionName(binding.tvTitle, "title_${movieArg.id}")
@@ -66,10 +85,21 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         ViewCompat.setTransitionName(binding.txtDescription, "description_${movieArg.id}")
 
 
-        Glide.with(requireContext()).load("${AppConstants.IMAGE_URL}${movieArg.posterPath}")
-            .centerCrop().into(binding.imvImagePoster)
-        Glide.with(requireContext()).load("${AppConstants.IMAGE_URL}${movieArg.backdropImageUrl}")
-            .centerCrop().into(binding.imgBackground)
+//        Glide.with(requireContext()).load("${AppConstants.IMAGE_URL}${movieArg.posterPath}")
+//            .centerCrop().into(binding.imvImagePoster)
+//        Glide.with(requireContext()).load("${AppConstants.IMAGE_URL}${movieArg.backdropImageUrl}")
+//            .centerCrop().into(binding.imgBackground)
+
+        binding.imvImagePoster.loadUrl(requireContext(),"${AppConstants.IMAGE_URL}${movieArg.posterPath}")
+        binding.imgBackground.loadUrl(requireContext(), "${AppConstants.IMAGE_URL}${movieArg.backdropImageUrl}")
+
+//        loadImageFromUrl (requireContext(), "${AppConstants.IMAGE_URL}${movieArg.backdropImageUrl}",
+//            binding.imgBackground
+//        )
+//        loadImageFromUrl(requireContext(), "${AppConstants.IMAGE_URL}${movieArg.posterPath}",
+//            binding.imvImagePoster
+//        )
+
         binding.txtDescription.text = movieArg.overview
         binding.tvTitle.text = movieArg.title
         binding.tvLanguage.text = "Language ${movieArg.originalLanguage}"
