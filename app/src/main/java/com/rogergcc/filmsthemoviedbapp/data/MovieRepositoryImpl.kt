@@ -17,25 +17,21 @@ class MovieRepositoryImpl constructor(
     private val dataSourceRemote: RemoteMovieDataSource,
     private val dataSourceLocal: LocalMovieDataSource,
 ) : IMovieRepository {
-
-
     override suspend fun getPopularMovies(): MovieList {
 
         try {
-            if (InternetCheck.isNetworkAvailable()) {
-                val characters = dataSourceRemote.getPopularMovies()
-                val remoteData = characters.results.mapNotNull { it.toDomain() }
-
-                dataSourceLocal.insertMovies(remoteData.map { it.toEntity("popular") })
-
-                return MovieList(remoteData)
-
-            } else {
-//            return dataSourceLocal.getPopularMovies().results.toMovieList()
+            if (!InternetCheck.isNetworkAvailable()) {
+        //            return dataSourceLocal.getPopularMovies().results.toMovieList()
                 val characters = dataSourceLocal.getPopularMovies()
                 val cacheData = characters.map { it.toDomain() }
                 return MovieList(cacheData)
             }
+
+            val characters = dataSourceRemote.getPopularMovies()
+            val remoteData = characters.results.mapNotNull { it.toDomain() }
+            dataSourceLocal.insertMovies(remoteData.map { it.toEntity("popular") })
+            return MovieList(remoteData)
+
         } catch (e: AppError) {
             Log.e("AppLogger", "[MovieRepositoryImpl] Exception e: ${e.message} ")
             throw e

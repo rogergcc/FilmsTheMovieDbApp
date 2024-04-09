@@ -31,7 +31,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
     private val binding get() = _binding!!
 
     private val viewModel: MovieViewModel by viewModels()
-    private val mAdapterMoviesList by lazy {
+    private val mAdapter by lazy {
         MoviesAdapter2() { movie, binding ->
             goToMovieDetailsView(movie, binding)
         }
@@ -68,7 +68,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
         binding.rvMovies.apply {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
-            adapter = mAdapterMoviesList
+            adapter = mAdapter
         }
 
 //        launchOnLifecycleScope {
@@ -96,17 +96,13 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
                     binding.progressBar.hide()
 
                     //                    binding.rvMovies.adapter = concatAdapter
-                    mAdapterMoviesList.mItemsMovie = result.data.results
-                    //                    displayData(result.data.results)
+                                        displayData(result.data.results)
+
                 }
 
                 is Resource.Failure -> {
                     binding.progressBar.hide()
                     binding.errorStateView.root.show()
-                    binding.errorStateView.tvErrorStateMessage.text = result.exception.toString()
-                    binding.errorStateView.imgStateError.setImageResource(R.drawable.error_image)
-
-
                     result.errorType.let {
                         binding.errorStateView.tvErrorStateMessage.text = getString(it.messageResId)
                         binding.errorStateView.imgStateError.setImageResource(it.imageResId)
@@ -117,6 +113,12 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
                 }
             }
         }
+    }
+
+
+    private fun displayData(results: List<MovieUiModel>) {
+        mAdapter.setData(results)
+
     }
 
     private fun goToMovieDetailsView(movieSelected: MovieUiModel, binding: MovieItem2Binding) {
