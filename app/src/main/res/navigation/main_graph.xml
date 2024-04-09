@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/movieFragment"
-        android:name="com.rogergcc.filmsthemoviedbapp.ui.main.MovieFragment"
+        android:name="com.rogergcc.filmsthemoviedbapp.presentation.home.MovieFragment"
         android:label="Popular Movies"
         tools:layout="@layout/fragment_movie">
         <action
@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/movieDetailFragment"
-        android:name="com.rogergcc.filmsthemoviedbapp.ui.detail.MovieDetailFragment"
+        android:name="com.rogergcc.filmsthemoviedbapp.presentation.detail.MovieDetailFragment"
         android:label="Movie Details"
         tools:layout="@layout/fragment_movie_detail">
 

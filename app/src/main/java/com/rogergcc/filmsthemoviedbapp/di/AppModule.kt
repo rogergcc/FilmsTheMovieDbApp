@@ -6,7 +6,7 @@ import com.rogergcc.filmsthemoviedbapp.core.DefaultDispatchersProvider
 import com.rogergcc.filmsthemoviedbapp.core.DispatchersProvider
 import com.rogergcc.filmsthemoviedbapp.data.MovieRepositoryImpl
 import com.rogergcc.filmsthemoviedbapp.data.local.LocalMovieDataSource
-import com.rogergcc.filmsthemoviedbapp.data.remote.ApiService
+import com.rogergcc.filmsthemoviedbapp.data.remote.FilmsApiService
 import com.rogergcc.filmsthemoviedbapp.data.remote.RemoteMovieDataSource
 import com.rogergcc.filmsthemoviedbapp.domain.IMovieRepository
 import dagger.Module
@@ -30,7 +30,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideWebService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+    fun provideWebService(retrofit: Retrofit): FilmsApiService = retrofit.create(FilmsApiService::class.java)
 
     @Singleton
     @Provides

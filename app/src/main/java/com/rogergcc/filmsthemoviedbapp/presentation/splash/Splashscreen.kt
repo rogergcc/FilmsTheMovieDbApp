@@ -1,11 +1,11 @@
-package com.rogergcc.filmsthemoviedbapp.ui.splash
+package com.rogergcc.filmsthemoviedbapp.presentation.splash
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import com.rogergcc.filmsthemoviedbapp.MainActivity
+import com.rogergcc.filmsthemoviedbapp.presentation.MainActivity
 import com.rogergcc.filmsthemoviedbapp.R
 import com.rogergcc.filmsthemoviedbapp.databinding.ActivitySplashscreenBinding
 import kotlinx.coroutines.CoroutineScope

@@ -1,4 +1,4 @@
-package com.rogergcc.filmsthemoviedbapp.ui.main.adapters
+package com.rogergcc.filmsthemoviedbapp.presentation.home.adapters
 
 import android.content.Context
 import android.view.LayoutInflater

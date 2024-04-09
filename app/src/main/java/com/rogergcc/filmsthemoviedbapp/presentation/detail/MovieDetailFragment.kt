@@ -1,4 +1,4 @@
-package com.rogergcc.filmsthemoviedbapp.ui.detail
+package com.rogergcc.filmsthemoviedbapp.presentation.detail
 
 import android.os.Bundle
 import android.view.View

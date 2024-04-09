@@ -4,15 +4,13 @@ import android.util.Log
 import com.rogergcc.filmsthemoviedbapp.application.AppConstants
 import com.rogergcc.filmsthemoviedbapp.data.AppError
 import com.rogergcc.filmsthemoviedbapp.data.remote.model.MovieListResponse
-import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
-import retrofit2.Response
 import java.io.IOException
 import javax.inject.Inject
 
 //@ExperimentalCoroutinesApi
 class RemoteMovieDataSource @Inject constructor(
-    private val apiService: ApiService,
+    private val filmsApiService: FilmsApiService,
 ) {
 
     suspend fun getPopularMovies(): MovieListResponse {
@@ -21,7 +19,7 @@ class RemoteMovieDataSource @Inject constructor(
 //            throw HttpException(Response.error<MovieListResponse>(404, "Not found".toResponseBody(null)))
 //            throw Exception("Simulated exception")
 
-            return apiService.getPopularMovies(AppConstants.API_KEY)
+            return filmsApiService.getPopularMovies(AppConstants.API_KEY)
         } catch (e: IOException) {
             Log.e("AppLogger", "[DataSource] IOException occurred: ${e.message}")
             throw AppError.NetworkError("Network error occurred")

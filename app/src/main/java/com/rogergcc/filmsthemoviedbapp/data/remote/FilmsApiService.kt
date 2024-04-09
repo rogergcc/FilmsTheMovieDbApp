@@ -5,12 +5,12 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import java.io.IOException
 
-interface ApiService {
+interface FilmsApiService {
     @GET("movie/popular")
     suspend fun getPopularMovies(@Query("api_key") apiKey: String): MovieListResponse
 }
 
-class FakeApiService : ApiService {
+class FakeFilmsApiService : FilmsApiService {
     // Simula una excepción de red
     override suspend fun getPopularMovies(apiKey: String): MovieListResponse {
         throw IOException("Network error occurred")
@@ -23,7 +23,7 @@ class FakeApiService : ApiService {
 //        Retrofit.Builder()
 //            .baseUrl(AppConstants.BASE_URL)
 //            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-//            .build().create(ApiService::class.java)
+//            .build().create(FilmsApiService::class.java)
 //    }
 //
 //}

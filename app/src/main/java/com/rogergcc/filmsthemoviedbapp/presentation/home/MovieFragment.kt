@@ -1,4 +1,4 @@
-package com.rogergcc.filmsthemoviedbapp.ui.main
+package com.rogergcc.filmsthemoviedbapp.presentation.home
 
 import android.os.Bundle
 import android.util.Log
@@ -18,11 +18,10 @@ import com.rogergcc.filmsthemoviedbapp.core.Resource
 import com.rogergcc.filmsthemoviedbapp.databinding.FragmentMovieBinding
 import com.rogergcc.filmsthemoviedbapp.databinding.MovieItem2Binding
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
-import com.rogergcc.filmsthemoviedbapp.ui.main.adapters.MoviesAdapter2
-import com.rogergcc.filmsthemoviedbapp.ui.presentation.MovieViewModel
-import com.rogergcc.filmsthemoviedbapp.ui.utils.hide
-import com.rogergcc.filmsthemoviedbapp.ui.utils.show
-import com.rogergcc.filmsthemoviedbapp.ui.utils.toast
+import com.rogergcc.filmsthemoviedbapp.presentation.home.adapters.MoviesAdapter2
+import com.rogergcc.filmsthemoviedbapp.presentation.utils.hide
+import com.rogergcc.filmsthemoviedbapp.presentation.utils.show
+import com.rogergcc.filmsthemoviedbapp.presentation.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 

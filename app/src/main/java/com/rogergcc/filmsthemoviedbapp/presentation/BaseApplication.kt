@@ -1,4 +1,4 @@
-package com.rogergcc.filmsthemoviedbapp.ui
+package com.rogergcc.filmsthemoviedbapp.presentation
 
 import android.app.Application
 import android.content.Context

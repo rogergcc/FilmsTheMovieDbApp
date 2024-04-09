@@ -1,4 +1,4 @@
-package com.rogergcc.filmsthemoviedbapp.ui.utils
+package com.rogergcc.filmsthemoviedbapp.presentation.utils
 
 import com.rogergcc.filmsthemoviedbapp.R
 

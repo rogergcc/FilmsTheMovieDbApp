@@ -1,4 +1,4 @@
-package com.rogergcc.filmsthemoviedbapp.ui.presentation
+package com.rogergcc.filmsthemoviedbapp.presentation.home
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -10,7 +10,7 @@ import com.rogergcc.filmsthemoviedbapp.core.Resource
 import com.rogergcc.filmsthemoviedbapp.data.AppError
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieList
 import com.rogergcc.filmsthemoviedbapp.domain.usecase.MoviesUseCase
-import com.rogergcc.filmsthemoviedbapp.ui.utils.ErrorType
+import com.rogergcc.filmsthemoviedbapp.presentation.utils.ErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
