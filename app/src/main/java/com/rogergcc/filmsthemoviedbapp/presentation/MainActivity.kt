@@ -1,4 +1,4 @@
-package com.rogergcc.filmsthemoviedbapp
+package com.rogergcc.filmsthemoviedbapp.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.rogergcc.filmsthemoviedbapp.R
 import com.rogergcc.filmsthemoviedbapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 

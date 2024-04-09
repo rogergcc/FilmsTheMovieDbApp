@@ -1,11 +1,10 @@
-package com.rogergcc.filmsthemoviedbapp.ui.main
+package com.rogergcc.filmsthemoviedbapp.presentation.home
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,10 +18,10 @@ import com.rogergcc.filmsthemoviedbapp.core.Resource
 import com.rogergcc.filmsthemoviedbapp.databinding.FragmentMovieBinding
 import com.rogergcc.filmsthemoviedbapp.databinding.MovieItem2Binding
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
-import com.rogergcc.filmsthemoviedbapp.ui.main.adapters.MoviesAdapter2
-import com.rogergcc.filmsthemoviedbapp.ui.presentation.MovieViewModel
-import com.rogergcc.filmsthemoviedbapp.ui.utils.hide
-import com.rogergcc.filmsthemoviedbapp.ui.utils.show
+import com.rogergcc.filmsthemoviedbapp.presentation.home.adapters.MoviesAdapter2
+import com.rogergcc.filmsthemoviedbapp.presentation.utils.hide
+import com.rogergcc.filmsthemoviedbapp.presentation.utils.show
+import com.rogergcc.filmsthemoviedbapp.presentation.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
@@ -88,7 +87,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
     }
 
     private fun observePopularMoviesList() {
-        viewModel.movieStateResource.observe(viewLifecycleOwner) { result ->
+        viewModel.movieState.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
                     binding.progressBar.show()
@@ -100,15 +99,21 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
                     mAdapterMoviesList.mItemsMovie = result.data.results
                     //                    displayData(result.data.results)
                 }
+
                 is Resource.Failure -> {
-                    binding.progressBar.show()
-                    Log.e("FetchError", "Error: ${result.exception} ")
-                    Toast.makeText(
-                        requireContext(),
-                        "Error: ${result.exception}",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    binding.progressBar.hide()
+                    binding.errorStateView.root.show()
+                    binding.errorStateView.tvErrorStateMessage.text = result.exception.toString()
+                    binding.errorStateView.imgStateError.setImageResource(R.drawable.error_image)
+
+
+                    result.errorType.let {
+                        binding.errorStateView.tvErrorStateMessage.text = getString(it.messageResId)
+                        binding.errorStateView.imgStateError.setImageResource(it.imageResId)
+                    }
+
+                    Log.e("AppLogger", "MovieFragment Error: ${result.exception} ")
+                    requireContext().toast("Error: ${result.exception}")
                 }
             }
         }

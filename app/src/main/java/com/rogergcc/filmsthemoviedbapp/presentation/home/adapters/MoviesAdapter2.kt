@@ -1,4 +1,4 @@
-package com.rogergcc.filmsthemoviedbapp.ui.main.adapters
+package com.rogergcc.filmsthemoviedbapp.presentation.home.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.rogergcc.filmsthemoviedbapp.application.AppConstants
 import com.rogergcc.filmsthemoviedbapp.core.BaseViewHolder
 import com.rogergcc.filmsthemoviedbapp.databinding.MovieItem2Binding
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
+import com.rogergcc.filmsthemoviedbapp.presentation.utils.loadUrlLoading
 
 class MoviesAdapter2(
     val movieDetailsAction: (movieUi: MovieUiModel, itemBinding: MovieItem2Binding) -> Unit,
@@ -53,12 +53,9 @@ class MoviesAdapter2(
     ) : BaseViewHolder<MovieUiModel>(binding.root) {
         override fun bind(item: MovieUiModel) {
 
-            binding.apply {
-                tvTitle.text = item.title
-//                tvDescription.text = item.overview
-                Glide.with(context).load("${AppConstants.IMAGE_URL}${item.posterPath}")
-                    .centerCrop().into(imvImagePoster)
-            }
+            binding.tvTitle.text = item.title
+//            binding.tvDescription.text = item.overview
+            binding.imvImagePoster.loadUrlLoading(context, "${AppConstants.IMAGE_URL}${item.posterPath}")
 
             ViewCompat.setTransitionName(binding.imvImagePoster, "avatar_${item.id}")
             ViewCompat.setTransitionName(binding.tvTitle, "title_${item.id}")

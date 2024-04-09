@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/pattern_background"
-    tools:context=".ui.splash.Splashscreen">
+    android:backgroundTint="@color/g_start_color"
+    tools:context=".presentation.splash.Splashscreen">
 
     <ImageView
         android:id="@+id/imvLogo"

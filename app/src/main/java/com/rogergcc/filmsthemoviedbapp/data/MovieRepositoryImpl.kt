@@ -1,5 +1,6 @@
 package com.rogergcc.filmsthemoviedbapp.data
 
+import android.util.Log
 import com.rogergcc.filmsthemoviedbapp.core.InternetCheck
 import com.rogergcc.filmsthemoviedbapp.data.local.LocalMovieDataSource
 import com.rogergcc.filmsthemoviedbapp.data.remote.RemoteMovieDataSource
@@ -11,27 +12,34 @@ import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
 
 //@ExperimentalCoroutinesApi
 //@ActivityRetainedScoped
-//class IMovieRepositoryImpl @Inject constructor(
-class IMovieRepositoryImpl constructor(
+//class MovieRepositoryImpl @Inject constructor(
+class MovieRepositoryImpl constructor(
     private val dataSourceRemote: RemoteMovieDataSource,
     private val dataSourceLocal: LocalMovieDataSource,
 ) : IMovieRepository {
 
 
     override suspend fun getPopularMovies(): MovieList {
-        if (InternetCheck.isNetworkAvailable()) {
 
-            val remoteData = getCharactersRemote()
+        try {
+            if (InternetCheck.isNetworkAvailable()) {
+                val characters = dataSourceRemote.getPopularMovies()
+                val remoteData = characters.results.mapNotNull { it.toDomain() }
 
-            dataSourceLocal.insertMovies(remoteData.map { it.toEntity("popular") })
-            return MovieList(remoteData)
+                dataSourceLocal.insertMovies(remoteData.map { it.toEntity("popular") })
 
-        } else {
+                return MovieList(remoteData)
+
+            } else {
 //            return dataSourceLocal.getPopularMovies().results.toMovieList()
-            val cacheData = getCharactersCache()
-            return MovieList(cacheData)
+                val characters = dataSourceLocal.getPopularMovies()
+                val cacheData = characters.map { it.toDomain() }
+                return MovieList(cacheData)
+            }
+        } catch (e: AppError) {
+            Log.e("AppLogger", "[MovieRepositoryImpl] Exception e: ${e.message} ")
+            throw e
         }
-
     }
 
     private suspend fun getCharactersRemote(): List<MovieUiModel> {
@@ -39,6 +47,7 @@ class IMovieRepositoryImpl constructor(
             val characters = dataSourceRemote.getPopularMovies()
             characters.results.mapNotNull { it.toDomain() }
         } catch (e: Exception) {
+            throw e
             emptyList()
         }
     }
