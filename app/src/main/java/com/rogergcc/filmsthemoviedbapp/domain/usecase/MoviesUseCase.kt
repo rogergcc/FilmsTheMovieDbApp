@@ -9,9 +9,16 @@ import javax.inject.Inject
 class MoviesUseCase @Inject constructor(
     private val moviesRepository: IMovieRepository,
 ) {
-    suspend fun execute(): MovieList {
+    suspend fun popularMovies(): MovieList {
         try {
             return moviesRepository.getPopularMovies()
+        } catch (e: AppError) {
+            throw e
+        }
+    }
+    suspend fun moviesByCollection(): MovieList {
+        try {
+            return moviesRepository.getMoviesByCollection()
         } catch (e: AppError) {
             throw e
         }

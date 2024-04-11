@@ -38,6 +38,44 @@ class MovieRepositoryImpl constructor(
         }
     }
 
+    override suspend fun getMoviesByCollection(): MovieList {
+        try {
+            if (!InternetCheck.isNetworkAvailable()) {
+                //            return dataSourceLocal.getPopularMovies().results.toMovieList()
+                val characters = dataSourceLocal.getPopularMovies()
+                val cacheData = characters.map { it.toDomain() }
+                return MovieList(cacheData)
+            }
+
+            val moviesCollectionResponse = dataSourceRemote.getMoviesByCollection()
+
+            val moviesCollection= moviesCollectionResponse.movies.map { item->
+                return@map MovieUiModel(
+                    id = item.id,
+                    originalTitle = item.originalTitle,
+                    originalLanguage = item.originalLanguage,
+                    overview = item.overview,
+                    popularity = item.popularity,
+                    posterPath = item.posterPath,
+                    releaseDate = item.releaseDate,
+                    title = item.title,
+                    movieType = "collection",
+                    backdropImageUrl = item.backdropPath,
+                    voteAverage = item.voteAverage,
+                    voteCount = item.voteCount
+                )
+            }
+
+            dataSourceLocal.insertMovies(moviesCollection.map { it.toEntity("collection") })
+            return MovieList(moviesCollection)
+
+        } catch (e: AppError) {
+            Log.e("AppLogger", "[MovieRepositoryImpl] Exception e: ${e.message} ")
+            throw e
+        }
+
+    }
+
     private suspend fun getCharactersRemote(): List<MovieUiModel> {
         return try {
             val characters = dataSourceRemote.getPopularMovies()

@@ -34,7 +34,7 @@ class MovieViewModel @Inject constructor(
             _movieState.postValue(Resource.Loading())
 
             try {
-                _movieState.postValue(Resource.Success(moviesUseCase.execute()))
+                _movieState.postValue(Resource.Success(moviesUseCase.moviesByCollection()))
             } catch (e: AppError) {
                 Log.e("AppLogger", "MovieViewModel AppError: ${e.message} ")
                 val errorType = when (e) {
