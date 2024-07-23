@@ -1,10 +1,10 @@
 package com.rogergcc.filmsthemoviedbapp.presentation.home
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rogergcc.filmsthemoviedbapp.application.TimberAppLogger
 import com.rogergcc.filmsthemoviedbapp.core.DispatchersProvider
 import com.rogergcc.filmsthemoviedbapp.core.Resource
 import com.rogergcc.filmsthemoviedbapp.data.AppError
@@ -34,9 +34,10 @@ class MovieViewModel @Inject constructor(
             _movieState.postValue(Resource.Loading())
 
             try {
+                TimberAppLogger.d("MovieViewModel fetchMovies")
                 _movieState.postValue(Resource.Success(moviesUseCase.moviesByCollection()))
             } catch (e: AppError) {
-                Log.e("AppLogger", "MovieViewModel AppError: ${e.message} ")
+                TimberAppLogger.e("MovieViewModel AppError: ${e.message} ")
                 val errorType = when (e) {
                     is AppError.NetworkError -> ErrorType.NETWORK_ERROR
                     is AppError.ApiError -> ErrorType.API_ERROR

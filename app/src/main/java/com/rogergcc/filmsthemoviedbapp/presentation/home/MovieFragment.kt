@@ -1,7 +1,6 @@
 package com.rogergcc.filmsthemoviedbapp.presentation.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionInflater
 import com.rogergcc.filmsthemoviedbapp.R
+import com.rogergcc.filmsthemoviedbapp.application.TimberAppLogger
 import com.rogergcc.filmsthemoviedbapp.core.Resource
 import com.rogergcc.filmsthemoviedbapp.databinding.FragmentMovieBinding
 import com.rogergcc.filmsthemoviedbapp.databinding.MovieItem2Binding
@@ -75,7 +75,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 //        }
         observePopularMoviesList()
 
-
+        TimberAppLogger.d("MovieFragment onViewCreated")
         binding.rvMovies.scheduleLayoutAnimation()
 
 //        val viewModel: MovieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
@@ -108,7 +108,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
                         binding.errorStateView.imgStateError.setImageResource(it.imageResId)
                     }
 
-                    Log.e("AppLogger", "MovieFragment Error: ${result.exception} ")
+                    TimberAppLogger.e("MovieFragment Error: ${result.exception} ")
                     requireContext().toast("Error: ${result.exception}")
                 }
             }
@@ -122,7 +122,8 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
     }
 
     private fun goToMovieDetailsView(movieSelected: MovieUiModel, binding: MovieItem2Binding) {
-        Log.d(TAG, "prevention $movieSelected")
+//        Log.d(TAG, "prevention $movieSelected")
+        TimberAppLogger.d("prevention $movieSelected")
 //        requireContext().toast(prevention.toString())
 
         val extras = FragmentNavigatorExtras(

@@ -1,6 +1,6 @@
 package com.rogergcc.filmsthemoviedbapp.data
 
-import android.util.Log
+import com.rogergcc.filmsthemoviedbapp.application.TimberAppLogger
 import com.rogergcc.filmsthemoviedbapp.core.InternetCheck
 import com.rogergcc.filmsthemoviedbapp.data.local.LocalMovieDataSource
 import com.rogergcc.filmsthemoviedbapp.data.remote.RemoteMovieDataSource
@@ -33,7 +33,8 @@ class MovieRepositoryImpl constructor(
             return MovieList(remoteData)
 
         } catch (e: AppError) {
-            Log.e("AppLogger", "[MovieRepositoryImpl] Exception e: ${e.message} ")
+//            Log.e("AppLogger", "[MovieRepositoryImpl] Exception e: ${e.message} ")
+            TimberAppLogger.e("[$TAG] Exception e: ${e.message} ")
             throw e
         }
     }
@@ -70,7 +71,7 @@ class MovieRepositoryImpl constructor(
             return MovieList(moviesCollection)
 
         } catch (e: AppError) {
-            Log.e("AppLogger", "[MovieRepositoryImpl] Exception e: ${e.message} ")
+            TimberAppLogger.e("[$TAG] Exception e: ${e.message} ")
             throw e
         }
 
@@ -93,5 +94,9 @@ class MovieRepositoryImpl constructor(
         } catch (e: Exception) {
             emptyList()
         }
+    }
+
+    companion object {
+        private const val TAG = "MovieRepositoryImpl"
     }
 }

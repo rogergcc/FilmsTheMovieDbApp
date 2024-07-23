@@ -33,7 +33,6 @@ android {
         debug {
             versionNameSuffix "_Debug"
             debuggable true
-            minifyEnabled false
             resValue "string", "app_name_build", "FilmsTMDB-Debug"
 
         }
@@ -55,6 +54,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        buildConfig = true
     }
 
 }
@@ -118,6 +118,9 @@ dependencies {
     //multidex
 //    implementation 'com.android.support:multidex:1.0.3'
     implementation "androidx.multidex:multidex:2.0.1"
+
+    // logger
+    implementation "com.jakewharton.timber:timber:4.5.1"
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'

@@ -1,7 +1,7 @@
 package com.rogergcc.filmsthemoviedbapp.data.remote
 
-import android.util.Log
 import com.rogergcc.filmsthemoviedbapp.application.AppConstants
+import com.rogergcc.filmsthemoviedbapp.application.TimberAppLogger
 import com.rogergcc.filmsthemoviedbapp.data.AppError
 import com.rogergcc.filmsthemoviedbapp.data.remote.model.CollectionMoviesResponse
 import com.rogergcc.filmsthemoviedbapp.data.remote.model.MovieListResponse
@@ -24,13 +24,13 @@ class RemoteMovieDataSource @Inject constructor(
 
 
         } catch (e: IOException) {
-            Log.e("AppLogger", "[DataSource] IOException occurred: ${e.message}")
+            TimberAppLogger.e("[$TAG] IOException occurred: ${e.message}")
             throw AppError.NetworkError("Network error occurred")
         } catch (e: HttpException) {
-            Log.e("AppLogger", "[DataSource] HttpException occurred: ${e.message}")
+            TimberAppLogger.e("[$TAG] HttpException occurred: ${e.message}")
             throw AppError.ApiError("API error occurred")
         } catch (e: Exception) {
-            Log.e("AppLogger", "[DataSource] Unknown exception occurred: ${e.message}")
+            TimberAppLogger.e("[$TAG] Unknown exception occurred: ${e.message}")
             throw AppError.UnknownError("An unknown error occurred")
         }
     }
@@ -44,14 +44,21 @@ class RemoteMovieDataSource @Inject constructor(
 
 
         } catch (e: IOException) {
-            Log.e("AppLogger", "[DataSource] IOException occurred: ${e.message}")
+//            Log.e("AppLogger", "[DataSource] IOException occurred: ${e.message}")
+            TimberAppLogger.e("[$TAG] IOException occurred: ${e.message}")
             throw AppError.NetworkError("Network error occurred")
         } catch (e: HttpException) {
-            Log.e("AppLogger", "[DataSource] HttpException occurred: ${e.message}")
+//            Log.e("AppLogger", "[DataSource] HttpException occurred: ${e.message}")
+            TimberAppLogger.e("[$TAG] HttpException occurred: ${e.message}")
             throw AppError.ApiError("API error occurred")
         } catch (e: Exception) {
-            Log.e("AppLogger", "[DataSource] Unknown exception occurred: ${e.message}")
+//            Log.e("AppLogger", "[DataSource] Unknown exception occurred: ${e.message}")
+            TimberAppLogger.e("[$TAG] Unknown exception occurred: ${e.message}")
             throw AppError.UnknownError("An unknown error occurred")
         }
+    }
+
+    companion object {
+        private const val TAG = "RemoteMovieDataSource"
     }
 }
