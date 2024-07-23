@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.transition.TransitionInflater
 import com.rogergcc.filmsthemoviedbapp.R
 import com.rogergcc.filmsthemoviedbapp.application.TimberAppLogger
-import com.rogergcc.filmsthemoviedbapp.core.Resource
 import com.rogergcc.filmsthemoviedbapp.databinding.FragmentMovieBinding
 import com.rogergcc.filmsthemoviedbapp.databinding.MovieItem2Binding
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
@@ -88,28 +87,59 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
     private fun observePopularMoviesList() {
         viewModel.movieState.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Resource.Loading -> {
-                    binding.progressBar.show()
-                }
-                is Resource.Success -> {
-                    binding.progressBar.hide()
-
-                    //                    binding.rvMovies.adapter = concatAdapter
-                                        displayData(result.data.results)
-
-                }
-
-                is Resource.Failure -> {
-                    binding.progressBar.hide()
-                    binding.errorStateView.root.show()
-                    result.errorType.let {
-                        binding.errorStateView.tvErrorStateMessage.text = getString(it.messageResId)
-                        binding.errorStateView.imgStateError.setImageResource(it.imageResId)
+//            when (result) {
+//                is Resource.Loading -> {
+//                    binding.progressBar.show()
+//                }
+//                is Resource.Success -> {
+//                    binding.progressBar.hide()
+//
+//                    //                    binding.rvMovies.adapter = concatAdapter
+//                                        displayData(result.data.results)
+//
+//                }
+//
+//                is Resource.Failure -> {
+//                    binding.progressBar.hide()
+//                    binding.errorStateView.root.show()
+//                    result.errorType.let {
+//                        binding.errorStateView.tvErrorStateMessage.text = getString(it.messageResId)
+//                        binding.errorStateView.imgStateError.setImageResource(it.imageResId)
+//                    }
+//
+//                    TimberAppLogger.e("MovieFragment Error: ${result.exception} ")
+//                    requireContext().toast("Error: ${result.exception}")
+//                }
+//            }
+//        }
+            viewModel.movieState.observe(viewLifecycleOwner) { state ->
+                when (state) {
+                    is MoviesUiState.Idle -> {
+                        binding.progressBar.hide()
                     }
 
-                    TimberAppLogger.e("MovieFragment Error: ${result.exception} ")
-                    requireContext().toast("Error: ${result.exception}")
+                    is MoviesUiState.Loading -> {
+                        binding.progressBar.show()
+                    }
+
+                    is MoviesUiState.Success -> {
+                        binding.progressBar.hide()
+                        displayData(state.user.results)
+                    }
+
+                    is MoviesUiState.Failure -> {
+                        binding.progressBar.hide()
+                        binding.errorStateView.root.show()
+                        state.errorType.let {
+                            binding.errorStateView.tvErrorStateMessage.text =
+                                getString(it.messageResId)
+                            binding.errorStateView.imgStateError.setImageResource(it.imageResId)
+                        }
+
+                        TimberAppLogger.e("MovieFragment Error: ${state.exception} ")
+                        requireContext().toast("Error: ${state.exception}")
+                    }
+
                 }
             }
         }
@@ -117,7 +147,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
 
     private fun displayData(results: List<MovieUiModel>) {
-        mAdapter.setData(results)
+        mAdapter.submitList(results)
 
     }
 

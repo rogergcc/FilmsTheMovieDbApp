@@ -13,14 +13,13 @@ import com.rogergcc.filmsthemoviedbapp.databinding.MovieItem2Binding
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
 import com.rogergcc.filmsthemoviedbapp.presentation.utils.loadUrlLoading
 
-class MoviesAdapter2(
-    val movieDetailsAction: (movieUi: MovieUiModel,
+class MoviesAdapter2(val movieDetailsAction: (movieUi: MovieUiModel,
                              itemBinding: MovieItem2Binding) -> Unit,
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     private var mMoviesList = emptyList<MovieUiModel>()
 
-    fun setData(results: List<MovieUiModel>) {
+    fun submitList(results: List<MovieUiModel>) {
         val recipesDiffUtil =
             RowDiffUtil(mMoviesList, results)
         val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
