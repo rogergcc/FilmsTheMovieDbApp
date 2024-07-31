@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -18,10 +20,12 @@ import com.rogergcc.filmsthemoviedbapp.databinding.FragmentMovieBinding
 import com.rogergcc.filmsthemoviedbapp.databinding.MovieItem2Binding
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
 import com.rogergcc.filmsthemoviedbapp.presentation.home.adapters.MoviesAdapter2
+import com.rogergcc.filmsthemoviedbapp.presentation.utils.ErrorType
 import com.rogergcc.filmsthemoviedbapp.presentation.utils.hide
 import com.rogergcc.filmsthemoviedbapp.presentation.utils.show
 import com.rogergcc.filmsthemoviedbapp.presentation.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
@@ -72,8 +76,41 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
 //        launchOnLifecycleScope {
 //        }
-        observePopularMoviesList()
 
+        lifecycleScope.launch {
+            viewModel.movieState
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { state ->
+                    when (state) {
+//                        is MovieViewModel.MoviesUiState.Idle -> {
+//                            // Ocultar la barra de progreso y la vista de error
+//                            binding.progressBar.hide()
+//                            binding.errorStateView.root.hide()
+//                        }
+
+                        is MovieViewModel.MoviesUiState.Loading -> {
+                            // Mostrar el estado de carga
+                            binding.progressBar.show()
+                        }
+                        is MovieViewModel.MoviesUiState.Success -> {
+                            // Mostrar la lista de películas
+                            binding.progressBar.hide()
+                            binding.errorStateView.root.hide()
+                            updateUI(state.movies.results)
+                        }
+                        is MovieViewModel.MoviesUiState.Failure -> {
+                            binding.progressBar.hide()
+                            binding.errorStateView.root.show()
+                            TimberAppLogger.e("MovieFragment Error: ${state.exception} ")
+                            requireContext().toast("Error: ${state.exception}")
+                            showError(state.errorType)
+
+
+                        }
+
+                    }
+                }
+        }
         TimberAppLogger.d("MovieFragment onViewCreated")
         binding.rvMovies.scheduleLayoutAnimation()
 
@@ -85,68 +122,15 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
         }
     }
 
-    private fun observePopularMoviesList() {
-        viewModel.movieState.observe(viewLifecycleOwner) { result ->
-//            when (result) {
-//                is Resource.Loading -> {
-//                    binding.progressBar.show()
-//                }
-//                is Resource.Success -> {
-//                    binding.progressBar.hide()
-//
-//                    //                    binding.rvMovies.adapter = concatAdapter
-//                                        displayData(result.data.results)
-//
-//                }
-//
-//                is Resource.Failure -> {
-//                    binding.progressBar.hide()
-//                    binding.errorStateView.root.show()
-//                    result.errorType.let {
-//                        binding.errorStateView.tvErrorStateMessage.text = getString(it.messageResId)
-//                        binding.errorStateView.imgStateError.setImageResource(it.imageResId)
-//                    }
-//
-//                    TimberAppLogger.e("MovieFragment Error: ${result.exception} ")
-//                    requireContext().toast("Error: ${result.exception}")
-//                }
-//            }
-//        }
-            viewModel.movieState.observe(viewLifecycleOwner) { state ->
-                when (state) {
-                    is MoviesUiState.Idle -> {
-                        binding.progressBar.hide()
-                    }
 
-                    is MoviesUiState.Loading -> {
-                        binding.progressBar.show()
-                    }
+    private fun showError(errorType: ErrorType) {
+        // Mostrar el mensaje de error basado en el tipo de error
+        binding.errorStateView.tvErrorStateMessage.text = getString(errorType.messageResId)
+        binding.errorStateView.imgStateError.setImageResource(errorType.imageResId)
 
-                    is MoviesUiState.Success -> {
-                        binding.progressBar.hide()
-                        displayData(state.user.results)
-                    }
-
-                    is MoviesUiState.Failure -> {
-                        binding.progressBar.hide()
-                        binding.errorStateView.root.show()
-                        state.errorType.let {
-                            binding.errorStateView.tvErrorStateMessage.text =
-                                getString(it.messageResId)
-                            binding.errorStateView.imgStateError.setImageResource(it.imageResId)
-                        }
-
-                        TimberAppLogger.e("MovieFragment Error: ${state.exception} ")
-                        requireContext().toast("Error: ${state.exception}")
-                    }
-
-                }
-            }
-        }
     }
 
-
-    private fun displayData(results: List<MovieUiModel>) {
+    private fun updateUI(results: List<MovieUiModel>) {
         mAdapter.submitList(results)
 
     }

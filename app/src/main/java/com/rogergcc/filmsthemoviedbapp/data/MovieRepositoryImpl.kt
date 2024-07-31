@@ -10,6 +10,10 @@ import com.rogergcc.filmsthemoviedbapp.domain.Mappers.toDomain
 import com.rogergcc.filmsthemoviedbapp.domain.Mappers.toEntity
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieList
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 //@ExperimentalCoroutinesApi
 //@ActivityRetainedScoped
@@ -40,7 +44,7 @@ class MovieRepositoryImpl constructor(
         }
     }
 
-    override suspend fun getMoviesByCollection(): NetworkResult<MovieList> {
+    override fun getMoviesByCollection(): Flow<NetworkResult<MovieList>> = flow {
 //        try {
 //            if (!InternetCheck.isNetworkAvailable()) {
 //                return NetworkResult.Failure(AppError.NetworkError("No internet connection"))
@@ -74,11 +78,13 @@ class MovieRepositoryImpl constructor(
                         )
                     }
                     dataSourceLocal.insertMovies(responseData.map { it.toEntity("collection") })
-                    return NetworkResult.Success(MovieList(responseData))
+//                    return NetworkResult.Success(MovieList(responseData))
+                    emit(NetworkResult.Success(MovieList(responseData)))
 
                 }
                 is NetworkResult.Failure -> {
-                    return NetworkResult.Failure(moviesCollectionResponse.error)
+//                    return NetworkResult.Failure(moviesCollectionResponse.error)
+                    emit(NetworkResult.Failure(moviesCollectionResponse.error))
                 }
             }
 
@@ -88,7 +94,7 @@ class MovieRepositoryImpl constructor(
 //            return NetworkResult.Failure(e)
 //        }
 
-    }
+    }.flowOn(Dispatchers.IO)
 
     private suspend fun getCharactersRemote(): List<MovieUiModel> {
         return try {
