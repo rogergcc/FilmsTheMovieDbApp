@@ -3,6 +3,8 @@ package com.rogergcc.filmsthemoviedbapp.presentation
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
+import com.rogergcc.filmsthemoviedbapp.BuildConfig
+import com.rogergcc.filmsthemoviedbapp.application.TimberAppLogger
 import dagger.hilt.android.HiltAndroidApp
 
 
@@ -26,10 +28,12 @@ class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        if (BuildConfig.DEBUG) {
+            TimberAppLogger.init()
+        }
         // initialize for any
         // Use ApplicationContext.
         // example: SharedPreferences etc...
         val context = BaseApplication.getApplicationContext()
     }
-
 }

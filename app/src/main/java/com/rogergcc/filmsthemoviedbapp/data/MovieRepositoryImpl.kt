@@ -1,14 +1,19 @@
 package com.rogergcc.filmsthemoviedbapp.data
 
-import android.util.Log
+import com.rogergcc.filmsthemoviedbapp.application.TimberAppLogger
 import com.rogergcc.filmsthemoviedbapp.core.InternetCheck
 import com.rogergcc.filmsthemoviedbapp.data.local.LocalMovieDataSource
 import com.rogergcc.filmsthemoviedbapp.data.remote.RemoteMovieDataSource
+import com.rogergcc.filmsthemoviedbapp.data.remote.model.CollectionMoviesResponse
 import com.rogergcc.filmsthemoviedbapp.domain.IMovieRepository
 import com.rogergcc.filmsthemoviedbapp.domain.Mappers.toDomain
 import com.rogergcc.filmsthemoviedbapp.domain.Mappers.toEntity
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieList
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieUiModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 //@ExperimentalCoroutinesApi
 //@ActivityRetainedScoped
@@ -17,30 +22,79 @@ class MovieRepositoryImpl constructor(
     private val dataSourceRemote: RemoteMovieDataSource,
     private val dataSourceLocal: LocalMovieDataSource,
 ) : IMovieRepository {
-
-
-    override suspend fun getPopularMovies(): MovieList {
+    override suspend fun getPopularMovies(): NetworkResult<MovieList> {
 
         try {
-            if (InternetCheck.isNetworkAvailable()) {
-                val characters = dataSourceRemote.getPopularMovies()
-                val remoteData = characters.results.mapNotNull { it.toDomain() }
-
-                dataSourceLocal.insertMovies(remoteData.map { it.toEntity("popular") })
-
-                return MovieList(remoteData)
-
-            } else {
-//            return dataSourceLocal.getPopularMovies().results.toMovieList()
+            if (!InternetCheck.isNetworkAvailable()) {
+        //            return dataSourceLocal.getPopularMovies().results.toMovieList()
                 val characters = dataSourceLocal.getPopularMovies()
                 val cacheData = characters.map { it.toDomain() }
-                return MovieList(cacheData)
+                return NetworkResult.Success(MovieList(cacheData))
             }
+
+            val characters = dataSourceRemote.getPopularMovies()
+            val remoteData = characters.results.mapNotNull { it.toDomain() }
+            dataSourceLocal.insertMovies(remoteData.map { it.toEntity("popular") })
+            return NetworkResult.Success(MovieList(remoteData))
+
         } catch (e: AppError) {
-            Log.e("AppLogger", "[MovieRepositoryImpl] Exception e: ${e.message} ")
+//            Log.e("AppLogger", "[MovieRepositoryImpl] Exception e: ${e.message} ")
+            TimberAppLogger.e("[$TAG] Exception e: ${e.message} ")
             throw e
         }
     }
+
+    override fun getMoviesByCollection(): Flow<NetworkResult<MovieList>> = flow {
+//        try {
+//            if (!InternetCheck.isNetworkAvailable()) {
+//                return NetworkResult.Failure(AppError.NetworkError("No internet connection"))
+//            }
+
+//            if (!InternetCheck.isNetworkAvailable()) {
+//                //            return dataSourceLocal.getPopularMovies().results.toMovieList()
+//                val characters = dataSourceLocal.getPopularMovies()
+//                val cacheData = characters.map { it.toDomain() }
+//                return NetworkResult.Success(MovieList(cacheData))
+//            }
+
+            val moviesCollectionResponse = dataSourceRemote.getMoviesByCollection()
+
+             when (moviesCollectionResponse) {
+                is NetworkResult.Success -> {
+                    val responseData = moviesCollectionResponse.data.movies.map { item ->
+                        return@map MovieUiModel(
+                            id = item.id,
+                            originalTitle = item.originalTitle,
+                            originalLanguage = item.originalLanguage,
+                            overview = item.overview,
+                            popularity = item.popularity,
+                            posterPath = item.posterPath,
+                            releaseDate = item.releaseDate,
+                            title = item.title,
+                            movieType = "collection",
+                            backdropImageUrl = item.backdropPath,
+                            voteAverage = item.voteAverage,
+                            voteCount = item.voteCount
+                        )
+                    }
+                    dataSourceLocal.insertMovies(responseData.map { it.toEntity("collection") })
+//                    return NetworkResult.Success(MovieList(responseData))
+                    emit(NetworkResult.Success(MovieList(responseData)))
+
+                }
+                is NetworkResult.Failure -> {
+//                    return NetworkResult.Failure(moviesCollectionResponse.error)
+                    emit(NetworkResult.Failure(moviesCollectionResponse.error))
+                }
+            }
+
+
+//        } catch (e: AppError) {
+//            TimberAppLogger.e("[$TAG] Exception e: ${e.message} ")
+//            return NetworkResult.Failure(e)
+//        }
+
+    }.flowOn(Dispatchers.IO)
 
     private suspend fun getCharactersRemote(): List<MovieUiModel> {
         return try {
@@ -59,5 +113,9 @@ class MovieRepositoryImpl constructor(
         } catch (e: Exception) {
             emptyList()
         }
+    }
+
+    companion object {
+        private const val TAG = "MovieRepositoryImpl"
     }
 }

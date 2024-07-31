@@ -13,9 +13,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+
+import java.util.concurrent.TimeUnit
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -25,9 +30,20 @@ object AppModule {
     @Provides
     fun provideRetrofitInstance(): Retrofit = Retrofit.Builder()
         .baseUrl(AppConstants.BASE_URL)
+        .client(provideOkHttp())
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
         .build()
-
+    private fun provideLoggingInterceptor(): Interceptor {
+        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+    }
+    private fun provideOkHttp(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .addNetworkInterceptor(provideLoggingInterceptor())
+            .build()
+    }
     @Singleton
     @Provides
     fun provideWebService(retrofit: Retrofit): FilmsApiService = retrofit.create(FilmsApiService::class.java)

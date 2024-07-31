@@ -12,6 +12,7 @@ import androidx.annotation.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.multidex.BuildConfig
 import java.util.*
 
 
@@ -48,6 +49,7 @@ fun Context.vibrate(pattern: LongArray = longArrayOf(0, 150)) {
         @Suppress("DEPRECATION")
         vibrator.vibrate(pattern, -1)
     }
+    BuildConfig.DEBUG
 }
 
 
