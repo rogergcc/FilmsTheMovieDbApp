@@ -21,8 +21,8 @@ class MovieViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _movieState = MutableStateFlow<MoviesUiState>(MoviesUiState.Loading)
-    val movieState: StateFlow<MoviesUiState> = _movieState
+    private val _movieState = MutableStateFlow<UiState>(UiState())
+    val movieState: StateFlow<UiState> = _movieState
 
     init {
         fetchMovies()
@@ -31,11 +31,11 @@ class MovieViewModel @Inject constructor(
     private fun fetchMovies() {
         viewModelScope.launch(viewModelScope.coroutineContext + dispatcherProvider.io) {
 
-            _movieState.value = MoviesUiState.Loading
+            _movieState.value =  UiState(isLoading = true)
             moviesUseCase.moviesByCollection().collect() { result ->
                 when (result) {
                     is NetworkResult.Success -> {
-                        _movieState.value = MoviesUiState.Success(result.data)
+                        _movieState.value = UiState(isLoading = false, data = result.data)
 
                     }
 
@@ -46,7 +46,8 @@ class MovieViewModel @Inject constructor(
                             is AppError.UnknownError -> ErrorType.UNKNOWN_ERROR
                             else -> ErrorType.UNKNOWN_ERROR
                         }
-                        _movieState.value = MoviesUiState.Failure(result.error, errorType)
+                        _movieState.value = UiState(isLoading = false, error = errorType)
+
                     }
                 }
             }
@@ -55,9 +56,9 @@ class MovieViewModel @Inject constructor(
     }
 
     data class UiState(
-        val isLoading: Boolean = false,
+        val isLoading: Boolean = true,
         val data: MovieList? = null,
-        val error: String? = null,
+        val error: ErrorType? = null,
     )
 
     sealed class MoviesUiState {

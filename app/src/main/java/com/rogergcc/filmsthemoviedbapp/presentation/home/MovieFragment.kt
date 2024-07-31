@@ -68,6 +68,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
         super.onViewCreated(view, savedInstanceState)
 //        _binding = FragmentMovieBinding.bind(view)
 
+        TimberAppLogger.d("MovieFragment onViewCreated")
         binding.rvMovies.apply {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
@@ -81,37 +82,45 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
             viewModel.movieState
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect { state ->
-                    when (state) {
-//                        is MovieViewModel.MoviesUiState.Idle -> {
-//                            // Ocultar la barra de progreso y la vista de error
+                    if (state.isLoading) binding.progressBar.show() else binding.progressBar.hide()
+
+                    when {
+                        state.data != null -> {
+                            updateUI(state.data.results)
+                        }
+                        state.error != null -> {
+                            TimberAppLogger.e("[$TAG] Error: ${state.error} ")
+                            requireContext().toast("Error: ${state.error}")
+                            showError(state.error)
+                        }
+                    }
+//                    when (state) {
+////                        is MovieViewModel.MoviesUiState.Idle -> {
+////                            // Ocultar la barra de progreso y la vista de error
+////                            binding.progressBar.hide()
+////                            binding.errorStateView.root.hide()
+////                        }
+//
+//                        is MovieViewModel.MoviesUiState.Loading -> {
+//                            // Mostrar el estado de carga
+//                            binding.progressBar.show()
+//                        }
+//                        is MovieViewModel.MoviesUiState.Success -> {
+//                            // Mostrar la lista de películas
 //                            binding.progressBar.hide()
 //                            binding.errorStateView.root.hide()
+//                            updateUI(state.movies.results)
 //                        }
-
-                        is MovieViewModel.MoviesUiState.Loading -> {
-                            // Mostrar el estado de carga
-                            binding.progressBar.show()
-                        }
-                        is MovieViewModel.MoviesUiState.Success -> {
-                            // Mostrar la lista de películas
-                            binding.progressBar.hide()
-                            binding.errorStateView.root.hide()
-                            updateUI(state.movies.results)
-                        }
-                        is MovieViewModel.MoviesUiState.Failure -> {
-                            binding.progressBar.hide()
-                            binding.errorStateView.root.show()
-                            TimberAppLogger.e("MovieFragment Error: ${state.exception} ")
-                            requireContext().toast("Error: ${state.exception}")
-                            showError(state.errorType)
-
-
-                        }
-
-                    }
+//                        is MovieViewModel.MoviesUiState.Failure -> {
+//                            binding.progressBar.hide()
+//                            TimberAppLogger.e("[$TAG] Error: ${state.exception} ")
+//                            requireContext().toast("Error: ${state.exception}")
+//                            showError(state.errorType)
+//
+//                        }
+//                    }
                 }
         }
-        TimberAppLogger.d("MovieFragment onViewCreated")
         binding.rvMovies.scheduleLayoutAnimation()
 
 //        val viewModel: MovieViewModel = ViewModelProvider(this).get(MovieViewModel::class.java)
@@ -125,6 +134,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
 
     private fun showError(errorType: ErrorType) {
         // Mostrar el mensaje de error basado en el tipo de error
+        binding.errorStateView.root.show()
         binding.errorStateView.tvErrorStateMessage.text = getString(errorType.messageResId)
         binding.errorStateView.imgStateError.setImageResource(errorType.imageResId)
 
