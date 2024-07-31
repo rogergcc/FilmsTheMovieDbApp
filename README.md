@@ -20,6 +20,8 @@ data from recipe api generate with Postman Mock Server
 
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android
   development.
+- [Flow](https://kotlinlang.org/docs/reference/coroutines/flow.html) - A cold asynchronous data
+  stream that sequentially emits values and completes normally or with an exception.
 - [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - For asynchronous
   and more..
 
