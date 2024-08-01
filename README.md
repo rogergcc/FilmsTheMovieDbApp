@@ -12,9 +12,8 @@ MVVM
 
 ## :mag: Insights into the app
 
-Application fetching Recipes
+Application fetching Movies from TMDB 
 
-data from recipe api generate with Postman Mock Server
 
 ## Built With 🛠
 
@@ -22,8 +21,8 @@ data from recipe api generate with Postman Mock Server
   development.
 - [Flow](https://kotlinlang.org/docs/reference/coroutines/flow.html) - A cold asynchronous data
   stream that sequentially emits values and completes normally or with an exception.
-- [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - For asynchronous
-  and more..
+- [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - Concurrency design
+  that is an alternative to callback-based code. 
 
 - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) -
   Collection of libraries that help you design robust, testable, and maintainable apps.
