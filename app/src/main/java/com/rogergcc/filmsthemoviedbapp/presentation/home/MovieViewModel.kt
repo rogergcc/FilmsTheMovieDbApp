@@ -28,29 +28,30 @@ class MovieViewModel @Inject constructor(
         fetchMovies()
     }
 
-    private fun fetchMovies() {
+    fun fetchMovies() {
         viewModelScope.launch(viewModelScope.coroutineContext + dispatcherProvider.io) {
 
-            _movieState.value =  UiState(isLoading = true)
-            moviesUseCase.moviesByCollection().collect() { result ->
-                when (result) {
-                    is NetworkResult.Success -> {
-                        _movieState.value = UiState(isLoading = false, data = result.data)
+            _movieState.value = UiState(isLoading = true)
+            moviesUseCase.moviesByCollection()
+                .collect() { result ->
+                    when (result) {
+                        is NetworkResult.Success -> {
+                            _movieState.value = UiState(isLoading = false, data = result.data)
 
-                    }
-
-                    is NetworkResult.Failure -> {
-                        val errorType = when (result.error) {
-                            is AppError.NetworkError -> ErrorType.NETWORK_ERROR
-                            is AppError.ApiError -> ErrorType.API_ERROR
-                            is AppError.UnknownError -> ErrorType.UNKNOWN_ERROR
-                            else -> ErrorType.UNKNOWN_ERROR
                         }
-                        _movieState.value = UiState(isLoading = false, error = errorType)
 
+                        is NetworkResult.Failure -> {
+                            val errorType = when (result.error) {
+                                is AppError.NetworkError -> ErrorType.NETWORK_ERROR
+                                is AppError.ApiError -> ErrorType.API_ERROR
+                                is AppError.UnknownError -> ErrorType.UNKNOWN_ERROR
+                                else -> ErrorType.UNKNOWN_ERROR
+                            }
+                            _movieState.value = UiState(isLoading = false, error = errorType)
+
+                        }
                     }
                 }
-            }
 
         }
     }
@@ -62,7 +63,7 @@ class MovieViewModel @Inject constructor(
     )
 
     sealed class MoviesUiState {
-//        object Idle : MoviesUiState()
+        //        object Idle : MoviesUiState()
         object Loading : MoviesUiState()
         data class Success(val movies: MovieList) : MoviesUiState()
         data class Failure(val exception: Exception, val errorType: ErrorType) : MoviesUiState()
