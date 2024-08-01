@@ -6,7 +6,7 @@ import com.rogergcc.filmsthemoviedbapp.core.DispatchersProvider
 import com.rogergcc.filmsthemoviedbapp.data.AppError
 import com.rogergcc.filmsthemoviedbapp.data.NetworkResult
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieList
-import com.rogergcc.filmsthemoviedbapp.domain.usecase.MoviesUseCase
+import com.rogergcc.filmsthemoviedbapp.domain.usecase.MoviesFromCollectionUseCase
 import com.rogergcc.filmsthemoviedbapp.presentation.utils.ErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(
-    private val moviesUseCase: MoviesUseCase,
+    private val moviesFromCollectionUseCase: MoviesFromCollectionUseCase,
     private val dispatcherProvider: DispatchersProvider,
 ) :
     ViewModel() {
@@ -28,11 +28,11 @@ class MovieViewModel @Inject constructor(
         fetchMovies()
     }
 
-    fun fetchMovies() {
+    private fun fetchMovies() {
         viewModelScope.launch(viewModelScope.coroutineContext + dispatcherProvider.io) {
 
             _movieState.value = UiState(isLoading = true)
-            moviesUseCase.moviesByCollection()
+            moviesFromCollectionUseCase.invoke()
                 .collect() { result ->
                     when (result) {
                         is NetworkResult.Success -> {
