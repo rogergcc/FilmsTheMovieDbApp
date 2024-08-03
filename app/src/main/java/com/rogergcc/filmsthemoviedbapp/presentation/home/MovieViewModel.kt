@@ -6,7 +6,7 @@ import com.rogergcc.filmsthemoviedbapp.core.DispatchersProvider
 import com.rogergcc.filmsthemoviedbapp.data.AppError
 import com.rogergcc.filmsthemoviedbapp.data.NetworkResult
 import com.rogergcc.filmsthemoviedbapp.domain.model.MovieList
-import com.rogergcc.filmsthemoviedbapp.domain.usecase.MoviesUseCase
+import com.rogergcc.filmsthemoviedbapp.domain.usecase.MoviesFromCollectionUseCase
 import com.rogergcc.filmsthemoviedbapp.presentation.utils.ErrorType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(
-    private val moviesUseCase: MoviesUseCase,
+    private val moviesFromCollectionUseCase: MoviesFromCollectionUseCase,
     private val dispatcherProvider: DispatchersProvider,
 ) :
     ViewModel() {
@@ -31,26 +31,27 @@ class MovieViewModel @Inject constructor(
     private fun fetchMovies() {
         viewModelScope.launch(viewModelScope.coroutineContext + dispatcherProvider.io) {
 
-            _movieState.value =  UiState(isLoading = true)
-            moviesUseCase.moviesByCollection().collect() { result ->
-                when (result) {
-                    is NetworkResult.Success -> {
-                        _movieState.value = UiState(isLoading = false, data = result.data)
+            _movieState.value = UiState(isLoading = true)
+            moviesFromCollectionUseCase.invoke()
+                .collect() { result ->
+                    when (result) {
+                        is NetworkResult.Success -> {
+                            _movieState.value = UiState(isLoading = false, data = result.data)
 
-                    }
-
-                    is NetworkResult.Failure -> {
-                        val errorType = when (result.error) {
-                            is AppError.NetworkError -> ErrorType.NETWORK_ERROR
-                            is AppError.ApiError -> ErrorType.API_ERROR
-                            is AppError.UnknownError -> ErrorType.UNKNOWN_ERROR
-                            else -> ErrorType.UNKNOWN_ERROR
                         }
-                        _movieState.value = UiState(isLoading = false, error = errorType)
 
+                        is NetworkResult.Failure -> {
+                            val errorType = when (result.error) {
+                                is AppError.NetworkError -> ErrorType.NETWORK_ERROR
+                                is AppError.ApiError -> ErrorType.API_ERROR
+                                is AppError.UnknownError -> ErrorType.UNKNOWN_ERROR
+                                else -> ErrorType.UNKNOWN_ERROR
+                            }
+                            _movieState.value = UiState(isLoading = false, error = errorType)
+
+                        }
                     }
                 }
-            }
 
         }
     }
@@ -62,7 +63,7 @@ class MovieViewModel @Inject constructor(
     )
 
     sealed class MoviesUiState {
-//        object Idle : MoviesUiState()
+        //        object Idle : MoviesUiState()
         object Loading : MoviesUiState()
         data class Success(val movies: MovieList) : MoviesUiState()
         data class Failure(val exception: Exception, val errorType: ErrorType) : MoviesUiState()

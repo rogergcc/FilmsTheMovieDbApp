@@ -88,6 +88,7 @@ class MovieFragment : Fragment(R.layout.fragment_movie) {
                         state.data != null -> {
                             updateUI(state.data.results)
                         }
+
                         state.error != null -> {
                             TimberAppLogger.e("[$TAG] Error: ${state.error} ")
                             requireContext().toast("Error: ${state.error}")
