@@ -1,6 +1,6 @@
 # FilmsTheMovieDbApp
 
-Android app fetch Movies from Server
+Android app fetch Movies from Api
 
 - [TMDB API](https://developer.themoviedb.org/docs) - using TMDB API v3 Stable to fetch movies
 
