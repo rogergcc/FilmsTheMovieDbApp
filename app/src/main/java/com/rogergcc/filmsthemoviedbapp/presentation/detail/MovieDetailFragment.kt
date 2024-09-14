@@ -17,9 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
-
 //    private val args by navArgs<MovieDetailFragmentArgs>()
-
 //    private val args: MovieDetailFragmentArgs by navArgs()
 
     private var _binding: FragmentMovieDetailBinding? = null
@@ -35,9 +33,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-
         _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
-
         return binding.root
 
     }
@@ -55,14 +51,11 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 //            fade.excludeTarget(R.id.appBar, true);
 //            fade.excludeTarget(android.R.id.statusBarBackground, true);
 //            fade.excludeTarget(android.R.id.navigationBarBackground, true);
-
         activity?.window?.enterTransition = null
         activity?.window?.exitTransition = null
-
         //        sharedElementEnterTransition =
 //            TransitionInflater.from(context).inflateTransition(android.R.transition.move)
 //        postponeEnterTransition(300, TimeUnit.MILLISECONDS)
-
         val animation = TransitionInflater.from(requireContext()).inflateTransition(
             android.R.transition.move
         )
@@ -82,7 +75,7 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 //        ViewCompat.setTransitionName(binding.txtRating, "rating_${movieArg.id}")
 //        ViewCompat.setTransitionName(binding.txtReleased, "released_${movieArg.id}")
 //        ViewCompat.setTransitionName(binding.txtLanguage, "language_${movieArg.id}")
-        ViewCompat.setTransitionName(binding.txtDescription, "description_${movieArg.id}")
+//        ViewCompat.setTransitionName(binding.tvOverviewSummary, "description_${movieArg.id}")
 
 
 //        Glide.with(requireContext()).load("${AppConstants.IMAGE_URL}${movieArg.posterPath}")
@@ -100,11 +93,11 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
 //            binding.imvImagePoster
 //        )
 
-        binding.txtDescription.text = movieArg.overview
+        binding.tvOverviewSummary.text = movieArg.overview
         binding.tvTitle.text = movieArg.title
-        binding.tvLanguage.text = "Language ${movieArg.originalLanguage}"
-        binding.tvRating.text = "${movieArg.voteAverage} (${movieArg.voteCount} Reviews)"
-        binding.tvReleased.text = "Released ${movieArg.releaseDate}"
+        binding.tvLanguage.text = resources.getString(R.string.language, movieArg.originalLanguage)
+        binding.tvRating.text =resources.getString(R.string.reviews, movieArg.voteAverage.toString(), movieArg.voteCount.toString())
+        binding.tvReleased.text = resources.getString(R.string.released, movieArg.releaseDate)
 
 
     }
