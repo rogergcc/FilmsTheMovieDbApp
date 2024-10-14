@@ -40,6 +40,8 @@ android {
         release {
             keyAlias localProperties['keyAlias']
             keyPassword localProperties['keyPassword']
+
+
             storeFile file(localProperties['storeFile'])
             storePassword localProperties['storePassword']
         }
