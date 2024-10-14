@@ -36,14 +36,14 @@ android {
     }
 
 
-    signingConfigs {
-        release {
-            keyAlias System.getenv('ALIAS') ?: localProperties['ALIAS']
-            keyPassword System.getenv('KEY_PASSWORD') ?: localProperties['KEY_PASSWORD']
-            storeFile file(System.getenv('ANDROID_KEYSTORE') ?: localProperties['ANDROID_KEYSTORE'])
-            storePassword System.getenv('KEY_STORE_PASSWORD') ?: localProperties['KEY_STORE_PASSWORD']
-        }
-    }
+//    signingConfigs {
+//        release {
+//            keyAlias System.getenv('ALIAS') ?: localProperties['ALIAS']
+//            keyPassword System.getenv('KEY_PASSWORD') ?: localProperties['KEY_PASSWORD']
+//            storeFile file(System.getenv('ANDROID_KEYSTORE') ?: localProperties['ANDROID_KEYSTORE'])
+//            storePassword System.getenv('KEY_STORE_PASSWORD') ?: localProperties['KEY_STORE_PASSWORD']
+//        }
+//    }
 
     buildTypes {
         debug {
@@ -54,7 +54,7 @@ android {
         }
         def baseUrl = '\"https://cinema-movie-trivia.herokuapp.com/api/v1/getMovies"'
         release {
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             debuggable false
             minifyEnabled false
             resValue "string", "app_name_build", "FilmsTMDBRelease"
