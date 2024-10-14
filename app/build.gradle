@@ -38,12 +38,10 @@ android {
 
     signingConfigs {
         release {
-            keyAlias localProperties['keyAlias']
-            keyPassword localProperties['keyPassword']
-
-
-            storeFile file(localProperties['storeFile'])
-            storePassword localProperties['storePassword']
+            keyAlias localProperties['ALIAS']
+            keyPassword localProperties['KEY_PASSWORD']
+            storeFile file(localProperties['ANDROID_KEYSTORE'])
+            storePassword localProperties['KEY_STORE_PASSWORD']
         }
     }
 
