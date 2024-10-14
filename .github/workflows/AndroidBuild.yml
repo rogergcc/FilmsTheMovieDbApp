@@ -26,6 +26,13 @@ jobs:
 #      - name: Install Android SDK
 #        run: |
 #          echo "y" | sdkmanager --sdk_root=$ANDROID_SDK_ROOT --install "platforms;android-34" "build-tools;34.0.0" "platform-tools"
+      - name: Install Android SDK
+        run: |
+          mkdir -p $HOME/Android/Sdk
+          echo "y" | sdkmanager --sdk_root=$HOME/Android/Sdk --install "platforms;android-34" "build-tools;34.0.0" "platform-tools"
+        env:
+          ANDROID_SDK_ROOT: $HOME/Android/Sdk
+          PATH: $HOME/Android/Sdk/tools/bin:$HOME/Android/Sdk/platform-tools:$PATH
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
