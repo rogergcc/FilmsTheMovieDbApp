@@ -28,8 +28,8 @@
 
 
     <androidx.cardview.widget.CardView
-        style="@style/CardViewStyle"
         android:id="@+id/cardView"
+        style="@style/CardViewStyle"
         android:layout_width="140dp"
         android:layout_height="210dp"
         android:layout_marginStart="@dimen/margin_16"
@@ -41,13 +41,13 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:adjustViewBounds="true"
             android:id="@+id/imvImagePoster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/app_name"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"
-            android:contentDescription="@string/app_name" />
+            android:src="@mipmap/ic_launcher" />
 
     </androidx.cardview.widget.CardView>
 
@@ -64,9 +64,9 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
+        android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,10 +78,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawablePadding="8dp"
-        app:drawableTint="@color/white"
         android:gravity="center"
         android:textColor="@color/white"
         app:drawableStartCompat="@drawable/ic_baseline_star_border_24"
+        app:drawableTint="@color/white"
         app:layout_constraintStart_toStartOf="@+id/tvReleased"
         app:layout_constraintTop_toTopOf="@+id/cardView"
         tools:text="7.1 (4123 Reviews)" />
@@ -94,9 +94,9 @@
         android:layout_marginTop="@dimen/margin_8"
         android:drawablePadding="8dp"
         android:gravity="center"
-        app:drawableTint="@color/white"
         android:textColor="@color/white"
         app:drawableStartCompat="@drawable/ic_baseline_calendar_today_24"
+        app:drawableTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toBottomOf="@+id/tvRating"
@@ -109,15 +109,15 @@
         android:layout_marginTop="@dimen/margin_8"
         android:drawablePadding="8dp"
         android:gravity="center"
-        app:drawableTint="@color/white"
         android:textColor="@color/white"
         app:drawableStartCompat="@drawable/ic_baseline_language_24"
+        app:drawableTint="@color/white"
         app:layout_constraintStart_toStartOf="@+id/tvReleased"
         app:layout_constraintTop_toBottomOf="@+id/tvReleased"
         tools:text="Language en " />
 
     <TextView
-        android:id="@+id/tvtitleOverview"
+        android:id="@+id/tvTitleOverview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_16"
@@ -139,15 +139,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvtitleOverview">
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleOverview">
 
         <TextView
+            android:id="@+id/tvOverviewSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:lineSpacingExtra="1dp"
             android:lineSpacingMultiplier="1.2"
-            android:id="@+id/txtDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             android:textSize="@dimen/md_text"
@@ -155,77 +155,68 @@
 
     </ScrollView>
 
-    <androidx.cardview.widget.CardView
-
-        android:id="@+id/cvFavorite"
-        style="@style/CardViewStyle"
+    <LinearLayout
+        android:id="@+id/llOptions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
-        app:cardBackgroundColor="?android:attr/colorBackground"
-
-        app:layout_constraintStart_toEndOf="@+id/cvBookmark"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:padding="@dimen/margin_8"
-            app:srcCompat="@drawable/ic_baseline_favorite_border_24"
-
-            />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-
-        android:id="@+id/cvShare"
-        style="@style/CardViewStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
-        app:cardBackgroundColor="?android:attr/colorBackground"
-        app:layout_constraintStart_toEndOf="@+id/cvFavorite"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:padding="@dimen/margin_8"
-            app:srcCompat="@drawable/ic_baseline_share_24"
-
-            />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvBookmark"
-        style="@style/CardViewStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_16"
-        app:cardBackgroundColor="?android:attr/colorBackground"
-
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
+
         <androidx.appcompat.widget.AppCompatImageView
-            android:adjustViewBounds="true"
+            android:id="@+id/cvBookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
             android:padding="@dimen/margin_8"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout"
             app:srcCompat="@drawable/ic_baseline_bookmark_border_24"
 
             />
+        <androidx.appcompat.widget.AppCompatImageView
 
-<!--        <androidx.appcompat.widget.AppCompatTextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/option_bookmark"-->
-<!--            app:drawableTopCompat="@drawable/ic_baseline_bookmark_border_24" />-->
+            android:id="@+id/cvFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:cropToPadding="true"
+            android:focusable="true"
+            android:padding="@dimen/margin_8"
+            app:srcCompat="@drawable/ic_baseline_favorite_border_24"
+            />
 
-    </androidx.cardview.widget.CardView>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/cvShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:adjustViewBounds="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:cropToPadding="true"
+            android:focusable="true"
+            android:padding="@dimen/margin_8"
+            app:srcCompat="@drawable/ic_baseline_share_24"
+            />
+
+    </LinearLayout>
+
+    <!--        <androidx.appcompat.widget.AppCompatTextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/option_bookmark"-->
+    <!--            app:drawableTopCompat="@drawable/ic_baseline_bookmark_border_24" />-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
