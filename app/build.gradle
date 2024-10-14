@@ -38,10 +38,10 @@ android {
 
     signingConfigs {
         release {
-            keyAlias localProperties['ALIAS']
-            keyPassword localProperties['KEY_PASSWORD']
-            storeFile file(localProperties['ANDROID_KEYSTORE'])
-            storePassword localProperties['KEY_STORE_PASSWORD']
+            keyAlias System.getenv('ALIAS') ?: localProperties['ALIAS']
+            keyPassword System.getenv('KEY_PASSWORD') ?: localProperties['KEY_PASSWORD']
+            storeFile file(System.getenv('ANDROID_KEYSTORE') ?: localProperties['ANDROID_KEYSTORE'])
+            storePassword System.getenv('KEY_STORE_PASSWORD') ?: localProperties['KEY_STORE_PASSWORD']
         }
     }
 
