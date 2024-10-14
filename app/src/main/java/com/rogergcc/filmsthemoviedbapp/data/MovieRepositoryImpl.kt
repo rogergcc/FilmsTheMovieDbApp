@@ -101,7 +101,6 @@ class MovieRepositoryImpl constructor(
             val characters = dataSourceRemote.getPopularMovies()
             characters.results.mapNotNull { it.toDomain() }
         } catch (e: Exception) {
-            throw e
             emptyList()
         }
     }
